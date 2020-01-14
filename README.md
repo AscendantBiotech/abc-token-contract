@@ -1,5 +1,5 @@
-# NFT Auction contract
-Ethereum smart contract to do NFT auction.
+# ERC-1155 token smart contract
+
 
 ## Prerequisites
 
