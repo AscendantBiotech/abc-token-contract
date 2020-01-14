@@ -1,0 +1,4 @@
+#! /bin/bash
+
+docker-compose run abctoken-env pipenv run truffle compile
+docker-compose run abctoken-env pipenv run pytest -v --ignore=token --cov-report term-missing $*

@@ -1,0 +1,21 @@
+#! /bin/bash
+if [ ! "$(docker ps -q -f name=eth-node)" ]; then
+    if [ "$(docker ps -aq -f status=exited -f name=eth-node)" ]; then
+        # cleanup
+        docker rm -f debug-node
+    fi
+fi
+if [ ! "$(docker ps -q -f name=eth-node)" ]; then
+    if [ "$(docker ps -aq -f status=exited -f name=eth-node)" ]; then
+        # cleanup
+        docker rm -f token-debugger
+    fi
+fi
+if [ ! "$(docker ps -q -f name=eth-node)" ]; then
+    if [ "$(docker ps -aq -f status=exited -f name=eth-node)" ]; then
+        # cleanup
+        docker rm -f abctoken-env
+    fi
+fi
+
+docker-compose build

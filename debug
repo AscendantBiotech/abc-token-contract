@@ -1,0 +1,7 @@
+#! /bin/bash
+docker rm -f debug-node
+docker rm -f token-debugger
+docker-compose -f debug.docker-compose.yml up  -d debug-node
+sleep 5
+docker-compose -f debug.docker-compose.yml run token-debugger pipenv run truffle compile
+docker-compose -f debug.docker-compose.yml run --name token-debugger token-debugger pipenv run python scripts/token_debugger.py $@

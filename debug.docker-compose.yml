@@ -1,0 +1,21 @@
+version: "3"
+services:
+  debug-node:
+    container_name: debug-node 
+    image: "trufflesuite/ganache-cli:v6.4.3"
+    command: "--host 0.0.0.0 --defaultBalanceEther 200000000"
+    ports:
+      - "8555:8545"
+  token-debugger:
+    container_name: token-debugger
+    image: "token-debugger:latest"
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - PYTHONPATH=/usr/src
+
+    volumes:
+      - ".:/usr/src"
+    network_mode: "host"
+    command: "tail -f /dev/null"

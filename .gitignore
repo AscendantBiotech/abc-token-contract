@@ -1,0 +1,7 @@
+__pycache__
+.pytest_cache
+.vscode
+state.json
+chaindata
+!chaindata/.gitkeep
+build/contracts/*
