@@ -1,0 +1,867 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:osb="http://www.openswatchbook.org/uri/2009/osb"
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="297mm"
+   height="210mm"
+   id="svg2985"
+   version="1.1"
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="abc-state-machine.svg">
+  <defs
+     id="defs2987">
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="Arrow1Lend"
+       style="overflow:visible;">
+      <path
+         id="path5463"
+         d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1.0pt;"
+         transform="scale(0.8) rotate(180) translate(12.5,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow2Mend"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="Arrow2Mend"
+       style="overflow:visible;">
+      <path
+         id="path5487"
+         style="fill-rule:evenodd;stroke-width:0.62500000;stroke-linejoin:round;"
+         d="M 8.7185878,4.0337352 L -2.2072895,0.016013256 L 8.7185884,-4.0017078 C 6.9730900,-1.6296469 6.9831476,1.6157441 8.7185878,4.0337352 z "
+         transform="scale(0.6) rotate(180) translate(0,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Mend"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="Arrow1Mend"
+       style="overflow:visible;">
+      <path
+         id="path5469"
+         d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1.0pt;"
+         transform="scale(0.4) rotate(180) translate(10,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow2Lend"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="Arrow2Lend"
+       style="overflow:visible;">
+      <path
+         id="path5481"
+         style="fill-rule:evenodd;stroke-width:0.62500000;stroke-linejoin:round;"
+         d="M 8.7185878,4.0337352 L -2.2072895,0.016013256 L 8.7185884,-4.0017078 C 6.9730900,-1.6296469 6.9831476,1.6157441 8.7185878,4.0337352 z "
+         transform="scale(1.1) rotate(180) translate(1,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="DiamondLstart"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="DiamondLstart"
+       style="overflow:visible">
+      <path
+         id="path5548"
+         d="M 0,-7.0710768 L -7.0710894,0 L 0,7.0710589 L 7.0710462,0 L 0,-7.0710768 z "
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1.0pt"
+         transform="scale(0.8) translate(7,0)" />
+    </marker>
+    <linearGradient
+       id="linearGradient5266"
+       osb:paint="solid">
+      <stop
+         style="stop-color:#000000;stop-opacity:1;"
+         offset="0"
+         id="stop5268" />
+    </linearGradient>
+    <marker
+       inkscape:stockid="Arrow2Mend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow2Mend-1"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path5487-9"
+         style="fill-rule:evenodd;stroke-width:0.625;stroke-linejoin:round"
+         d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
+         transform="scale(-0.6,-0.6)" />
+    </marker>
+  </defs>
+  <sodipodi:namedview
+     inkscape:document-units="mm"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.88199774"
+     inkscape:cx="530.16579"
+     inkscape:cy="336.81309"
+     inkscape:current-layer="layer10"
+     id="namedview2989"
+     showgrid="false"
+     inkscape:window-width="1920"
+     inkscape:window-height="1020"
+     inkscape:window-x="-2"
+     inkscape:window-y="-3"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata2991">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="AO:mintToken"
+     inkscape:groupmode="layer"
+     id="layer1"
+     style="display:inline">
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot2994"
+       style="font-size:14px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:#000000;stroke-opacity:1;font-family:Nimbus Mono L;-inkscape-font-specification:Nimbus Mono L Bold"><flowRegion
+         id="flowRegion2996"><rect
+           id="rect2998"
+           width="155.55031"
+           height="37.295689"
+           x="447.54828"
+           y="119.16428"
+           style="font-size:14px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;stroke:#000000;stroke-opacity:1;font-family:Nimbus Mono L;-inkscape-font-specification:Nimbus Mono L Bold" /></flowRegion><flowPara
+         id="flowPara3000">Available</flowPara></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot3002"
+       style="font-size:12px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Nimbus Mono L;-inkscape-font-specification:Nimbus Mono L"
+       transform="translate(-30.875749,-5.9192791)"><flowRegion
+         id="flowRegion3004"><rect
+           id="rect3006"
+           width="172.83371"
+           height="162.82751"
+           x="431.17456"
+           y="148.2731"
+           ry="0"
+           style="font-size:12px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;font-family:Nimbus Mono L;-inkscape-font-specification:Nimbus Mono L" /></flowRegion><flowPara
+         id="flowPara4892">Owner = 'addrO</flowPara><flowPara
+         id="flowPara4894">id = 'n</flowPara><flowPara
+         id="flowPara4896">TCO = 0</flowPara><flowPara
+         id="flowPara4898">Option:</flowPara><flowPara
+         id="flowPara4900">  Buyer = 0</flowPara><flowPara
+         id="flowPara4902">  Currency = 'addrC | 0</flowPara><flowPara
+         id="flowPara4904">  Price = 'p | 0</flowPara><flowPara
+         id="flowPara4906">  Expires = 'block | 0</flowPara><flowPara
+         id="flowPara4908">    where Expires &lt;= now</flowPara><flowPara
+         id="flowPara4910" /></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot3026"
+       style="font-size:14px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Nimbus Mono L;-inkscape-font-specification:Nimbus Mono L"><flowRegion
+         id="flowRegion3028"><rect
+           id="rect3030"
+           width="3.6386039"
+           height="16.373716"
+           x="543.06165"
+           y="302.00412" /></flowRegion><flowPara
+         id="flowPara3032" /></flowRoot>    <path
+       sodipodi:type="arc"
+       id="path3052"
+       sodipodi:cx="468.01541"
+       sodipodi:cy="501.67252"
+       sodipodi:rx="111.43224"
+       sodipodi:ry="106.88399"
+       d="m 579.44765,501.67252 a 111.43224,106.88399 0 1 1 -222.86448,0 111.43224,106.88399 0 1 1 222.86448,0 z"
+       style="fill:none;stroke:#000000;stroke-width:3.54330707;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       transform="translate(16.373717,-292.90761)" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1.77165353;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m 402.06572,137.35729 c 163.73717,0.90966 165.55648,0 165.55648,0 l -4.54826,0.90966 0.90965,0 2.72896,-0.90966"
+       id="path5272"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1.77165353;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-start:url(#DiamondLstart);marker-end:url(#Arrow1Mend)"
+       d="M 286.54005,70.043124 C 487.57291,44.572897 492.12117,102.79056 492.12117,102.79056 l -5.45791,-12.735115 1.8193,8.186858"
+       id="path5274"
+       inkscape:connector-curvature="0" />
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot6274"
+       style="font-size:14px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:#0000ff;stroke-width:0.99921262;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;font-family:Nimbus Mono L;-inkscape-font-specification:Nimbus Mono L"
+       transform="translate(0,3.6386038)"><flowRegion
+         id="flowRegion6276"><rect
+           id="rect6278"
+           width="121.89323"
+           height="24.560575"
+           x="332.93225"
+           y="40.934292"
+           style="stroke:#0000ff;stroke-width:0.99921262;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" /></flowRegion><flowPara
+         id="flowPara6280">AO:mintToken</flowPara></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot6282"
+       style="font-size:14px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:#00ff00;stroke-opacity:1;font-family:Nimbus Mono L;-inkscape-font-specification:Nimbus Mono L"
+       transform="translate(12.735113,-4.5482548)"><flowRegion
+         id="flowRegion6284"><rect
+           id="rect6286"
+           width="79.139633"
+           height="18.19302"
+           x="338.39017"
+           y="70.043121"
+           style="stroke:#00ff00;stroke-opacity:1" /></flowRegion><flowPara
+         id="flowPara6288">'addr0</flowPara></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot3220"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"><flowRegion
+         id="flowRegion3222"><rect
+           id="rect3224"
+           width="546.48663"
+           height="70.294968"
+           x="496.59991"
+           y="16.20146" /></flowRegion><flowPara
+         id="flowPara3226">Lifetime of an ABC Token</flowPara></flowRoot>  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="TO:applyToken"
+     style="display:inline">
+    <path
+       sodipodi:type="arc"
+       id="path3052-0"
+       sodipodi:cx="468.01541"
+       sodipodi:cy="501.67252"
+       sodipodi:rx="111.43224"
+       sodipodi:ry="106.88399"
+       d="m 579.44765,501.67252 a 111.43224,106.88399 0 1 1 -222.86448,0 111.43224,106.88399 0 1 1 222.86448,0 z"
+       style="fill:none;stroke:#000000;stroke-width:3.54330707;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
+       transform="matrix(0.81501294,0,0,0.83692838,-210.42424,-90.570322)" />
+    <flowRoot
+       transform="translate(-314.73889,133.92233)"
+       xml:space="preserve"
+       id="flowRoot2994-3"
+       style="font-size:14px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:#000000;stroke-opacity:1;display:inline;font-family:Nimbus Mono L;-inkscape-font-specification:Nimbus Mono L Bold"><flowRegion
+         id="flowRegion2996-1"><rect
+           id="rect2998-2"
+           width="155.55031"
+           height="37.295689"
+           x="447.54828"
+           y="119.16428"
+           style="font-size:14px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;stroke:#000000;stroke-opacity:1;font-family:Nimbus Mono L;-inkscape-font-specification:Nimbus Mono L Bold" /></flowRegion><flowPara
+         id="flowPara6355">EAPApplied</flowPara></flowRoot>    <path
+       style="fill:none;stroke:#000000;stroke-width:1.77165353;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
+       d="m 103.70022,271.53082 c 135.53799,0 132.80903,0 132.80903,0"
+       id="path6357"
+       inkscape:connector-curvature="0" />
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot3002-7"
+       style="font-size:12px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;display:inline;font-family:Nimbus Mono L;-inkscape-font-specification:Nimbus Mono L"
+       transform="translate(-311.31542,131.21889)"><flowRegion
+         id="flowRegion3004-9"><rect
+           id="rect3006-8"
+           width="172.83371"
+           height="162.82751"
+           x="431.17456"
+           y="148.2731"
+           ry="0"
+           style="font-size:12px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;font-family:Nimbus Mono L;-inkscape-font-specification:Nimbus Mono L" /></flowRegion><flowPara
+         id="flowPara7317">TCO = 'addrTC</flowPara><flowPara
+         id="flowPara7319" /><flowPara
+         id="flowPara7321" /></flowRoot>    <path
+       style="fill:none;stroke:#000000;stroke-width:1.77165353;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-end:url(#Arrow1Mend);display:inline"
+       d="m 398.24772,142.03657 c -161.91787,-1.8193 -224.68379,94.6037 -224.68379,94.6037 l -0.90965,0"
+       id="path6416"
+       inkscape:connector-curvature="0" />
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot6274-7"
+       style="font-size:14px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:#0000ff;stroke-width:0.99921262;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline;font-family:Nimbus Mono L;-inkscape-font-specification:Nimbus Mono L"
+       transform="matrix(0.91949438,-0.39310315,0.39310315,0.91949438,-125.79706,269.65257)"><flowRegion
+         id="flowRegion6276-1"><rect
+           id="rect6278-3"
+           width="121.89323"
+           height="24.560575"
+           x="332.93225"
+           y="40.934292"
+           style="font-size:14px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;stroke:#0000ff;stroke-width:0.99921262;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;font-family:Nimbus Mono L;-inkscape-font-specification:Nimbus Mono L" /></flowRegion><flowPara
+         id="flowPara7288">TO:applyToken</flowPara></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot6282-2"
+       style="font-size:14px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:#00ff00;stroke-opacity:1;display:inline;font-family:Nimbus Mono L;-inkscape-font-specification:Nimbus Mono L"
+       transform="matrix(0.91021739,-0.41413078,0.41413078,0.91021739,-129.17027,274.5184)"><flowRegion
+         id="flowRegion6284-0"><rect
+           id="rect6286-6"
+           width="113.69245"
+           height="15.75877"
+           x="338.39017"
+           y="70.043121"
+           style="font-size:14px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;stroke:#00ff00;stroke-opacity:1;font-family:Nimbus Mono L;-inkscape-font-specification:Nimbus Mono L"
+           ry="1.0434157" /></flowRegion><flowPara
+         id="flowPara4114">TCO = 'addrTC</flowPara></flowRoot>  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer3"
+     inkscape:label="TO:removeToken"
+     style="display:inline">
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1.77165353;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-end:url(#Arrow1Mend)"
+       d="m 226.50308,255.61194 c 73.68172,-59.12731 143.72485,-60.03696 143.72485,-60.03696 l 0,0 0,0 0,0"
+       id="path3058"
+       inkscape:connector-curvature="0" />
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot6274-7-3"
+       style="font-size:14px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:#0000ff;stroke-width:0.99921262;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline;font-family:Nimbus Mono L;-inkscape-font-specification:Nimbus Mono L"
+       transform="matrix(0.91949438,-0.39310315,0.39310315,0.91949438,-86.879889,313.88879)"><flowRegion
+         id="flowRegion6276-1-6"><rect
+           id="rect6278-3-7"
+           width="121.89323"
+           height="24.560575"
+           x="332.93225"
+           y="40.934292"
+           style="font-size:14px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;stroke:#0000ff;stroke-width:0.99921262;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;font-family:Nimbus Mono L;-inkscape-font-specification:Nimbus Mono L" /></flowRegion><flowPara
+         id="flowPara4083">TO:removeToken</flowPara></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot6282-2-3"
+       style="font-size:14px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:#00ff00;stroke-opacity:1;display:inline;font-family:Nimbus Mono L;-inkscape-font-specification:Nimbus Mono L"
+       transform="matrix(0.94455559,-0.32835153,0.32835153,0.94455559,-77.520949,271.25573)"><flowRegion
+         id="flowRegion6284-0-5"><rect
+           id="rect6286-6-6"
+           width="79.139633"
+           height="18.19302"
+           x="338.39017"
+           y="70.043121"
+           style="font-size:14px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;stroke:#00ff00;stroke-opacity:1;font-family:Nimbus Mono L;-inkscape-font-specification:Nimbus Mono L" /></flowRegion><flowPara
+         id="flowPara4112">TCO = 0</flowPara></flowRoot>  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer4"
+     inkscape:label="TCO:usertRejected"
+     style="display:inline">
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1.77165353;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-end:url(#Arrow1Mend)"
+       d="m 257.43121,299.27518 c 90.05544,0 129.44769,-34.6854 129.44769,-34.6854"
+       id="path4117"
+       inkscape:connector-curvature="0" />
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot6274-7-3-9"
+       style="font-size:13px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:#0000ff;stroke-width:0.99921262;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline;font-family:Nimbus Mono L;-inkscape-font-specification:Nimbus Mono L"
+       transform="matrix(0.95711755,-0.28969983,0.28969983,0.95711755,-73.885092,343.2316)"><flowRegion
+         id="flowRegion6276-1-6-1"><rect
+           id="rect6278-3-7-2"
+           width="139.33063"
+           height="23.111776"
+           x="332.93225"
+           y="40.934292"
+           style="font-size:13px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;stroke:#0000ff;stroke-width:0.99921262;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;font-family:Nimbus Mono L;-inkscape-font-specification:Nimbus Mono L" /></flowRegion><flowPara
+         id="flowPara4338">TCO:userRejected</flowPara></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot6282-2-3-0"
+       style="font-size:14px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:#00ff00;stroke-opacity:1;display:inline;font-family:Nimbus Mono L;-inkscape-font-specification:Nimbus Mono L"
+       transform="matrix(0.94455559,-0.32835153,0.32835153,0.94455559,-38.922094,343.83475)"><flowRegion
+         id="flowRegion6284-0-5-9"><rect
+           id="rect6286-6-6-3"
+           width="79.139633"
+           height="18.19302"
+           x="338.39017"
+           y="70.043121"
+           style="font-size:14px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;stroke:#00ff00;stroke-opacity:1;font-family:Nimbus Mono L;-inkscape-font-specification:Nimbus Mono L" /></flowRegion><flowPara
+         id="flowPara4112-6">TCO = 0</flowPara></flowRoot>  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer5"
+     inkscape:label="TCO:docsSubmitted"
+     style="display:inline">
+    <path
+       sodipodi:type="arc"
+       id="path3052-0-0"
+       sodipodi:cx="468.01541"
+       sodipodi:cy="501.67252"
+       sodipodi:rx="111.43224"
+       sodipodi:ry="106.88399"
+       d="m 579.44765,501.67252 a 111.43224,106.88399 0 1 1 -222.86448,0 111.43224,106.88399 0 1 1 222.86448,0 z"
+       style="fill:none;stroke:#000000;stroke-width:3.54330707;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
+       transform="matrix(0.81501294,0,0,0.83692838,-215.88215,192.33113)" />
+    <flowRoot
+       transform="translate(-335.66087,419.55273)"
+       xml:space="preserve"
+       id="flowRoot2994-3-6"
+       style="font-size:14px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:#000000;stroke-opacity:1;display:inline;font-family:Nimbus Mono L;-inkscape-font-specification:Nimbus Mono L Bold"><flowRegion
+         id="flowRegion2996-1-2"><rect
+           id="rect2998-2-6"
+           width="155.55031"
+           height="37.295689"
+           x="447.54828"
+           y="119.16428"
+           style="font-size:14px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;stroke:#000000;stroke-opacity:1;font-family:Nimbus Mono L;-inkscape-font-specification:Nimbus Mono L Bold" /></flowRegion><flowPara
+         id="flowPara4419">EAPProcessing</flowPara></flowRoot>    <path
+       style="fill:none;stroke:#000000;stroke-width:1.77165353;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
+       d="m 98.242311,554.43228 c 135.537989,0 132.809029,0 132.809029,0"
+       id="path6357-8"
+       inkscape:connector-curvature="0" />
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot3002-7-7"
+       style="font-size:10px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;display:inline;font-family:Nimbus Mono L;-inkscape-font-specification:Nimbus Mono L"
+       transform="translate(-346.79181,426.85545)"><flowRegion
+         id="flowRegion3004-9-9"><rect
+           id="rect3006-8-2"
+           width="197.39432"
+           height="23.650923"
+           x="431.17456"
+           y="148.2731"
+           ry="0"
+           style="font-size:10px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;font-family:Nimbus Mono L;-inkscape-font-specification:Nimbus Mono L" /></flowRegion><flowPara
+         id="flowPara4421">TCO[id].docSubmitted = True</flowPara><flowPara
+         id="flowPara4423" /><flowPara
+         id="flowPara4425" /></flowRoot>    <path
+       style="fill:none;stroke:#000000;stroke-width:1.77165353;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-end:url(#Arrow1Mend)"
+       d="m 109.15811,396.60783 c -60.03696,71.86242 0,148.2731 0,148.2731"
+       id="path4429"
+       inkscape:connector-curvature="0" />
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot6274-7-3-9-7"
+       style="font-size:13px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:#0000ff;stroke-width:0.99921262;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline;font-family:Nimbus Mono L;-inkscape-font-specification:Nimbus Mono L"
+       transform="matrix(-0.0189608,-0.99982023,0.99982023,-0.0189608,31.38032,866.92993)"><flowRegion
+         id="flowRegion6276-1-6-1-5"><rect
+           id="rect6278-3-7-2-9"
+           width="139.33063"
+           height="23.111776"
+           x="332.93225"
+           y="40.934292"
+           style="font-size:13px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;stroke:#0000ff;stroke-width:0.99921262;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;font-family:Nimbus Mono L;-inkscape-font-specification:Nimbus Mono L" /></flowRegion><flowPara
+         id="flowPara4650">TCO:docsSubmitted</flowPara></flowRoot>    <path
+       style="fill:none;stroke:#000000;stroke-width:1.77165353;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-end:url(#Arrow1Mend)"
+       d="M 171.01437,521.23001 C 396.6078,359.31214 411.16222,291.08832 411.16222,291.08832 l 0,0"
+       id="path4676"
+       inkscape:connector-curvature="0" />
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot6274-7-3-7"
+       style="font-size:14px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:#0000ff;stroke-width:0.99921262;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline;font-family:Nimbus Mono L;-inkscape-font-specification:Nimbus Mono L"
+       transform="matrix(0.76666157,-0.64205142,0.64205142,0.76666157,-53.705828,638.91154)"><flowRegion
+         id="flowRegion6276-1-6-3"><rect
+           id="rect6278-3-7-6"
+           width="121.89323"
+           height="24.560575"
+           x="332.93225"
+           y="40.934292"
+           style="font-size:14px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;stroke:#0000ff;stroke-width:0.99921262;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;font-family:Nimbus Mono L;-inkscape-font-specification:Nimbus Mono L" /></flowRegion><flowPara
+         id="flowPara4083-1">TO:removeToken</flowPara></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot6282-2-3-0-2"
+       style="font-size:14px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:#00ff00;stroke-opacity:1;display:inline;font-family:Nimbus Mono L;-inkscape-font-specification:Nimbus Mono L"
+       transform="matrix(0.78573062,-0.61856882,0.61856882,0.78573062,-45.44391,611.14417)"><flowRegion
+         id="flowRegion6284-0-5-9-9"><rect
+           id="rect6286-6-6-3-3"
+           width="79.139633"
+           height="18.19302"
+           x="338.39017"
+           y="70.043121"
+           style="font-size:14px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;stroke:#00ff00;stroke-opacity:1;font-family:Nimbus Mono L;-inkscape-font-specification:Nimbus Mono L" /></flowRegion><flowPara
+         id="flowPara4112-6-1">TCO = 0</flowPara></flowRoot>    <path
+       style="fill:none;stroke:#000000;stroke-width:1.77165353;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-end:url(#Arrow1Mend)"
+       d="M 222.86448,542.15198 C 453.91581,360.22179 453.46099,311.55547 453.46099,311.55547 l -1.36448,-1.36448 -0.90965,0 0.90965,0"
+       id="path4926"
+       inkscape:connector-curvature="0" />
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot6274-7-3-9-9"
+       style="font-size:13px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:#0000ff;stroke-width:0.99921262;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline;font-family:Nimbus Mono L;-inkscape-font-specification:Nimbus Mono L"
+       transform="matrix(0.74073723,-0.67179488,0.67179488,0.74073723,-7.1279288,679.55659)"><flowRegion
+         id="flowRegion6276-1-6-1-4"><rect
+           id="rect6278-3-7-2-7"
+           width="139.33063"
+           height="23.111776"
+           x="332.93225"
+           y="40.934292"
+           style="font-size:13px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;stroke:#0000ff;stroke-width:0.99921262;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;font-family:Nimbus Mono L;-inkscape-font-specification:Nimbus Mono L" /></flowRegion><flowPara
+         id="flowPara4338-8">TCO:userRejected</flowPara></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot6282-2-3-0-2-4"
+       style="font-size:14px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:#00ff00;stroke-opacity:1;display:inline;font-family:Nimbus Mono L;-inkscape-font-specification:Nimbus Mono L"
+       transform="matrix(0.78573062,-0.61856882,0.61856882,0.78573062,-3.2441853,628.37506)"><flowRegion
+         id="flowRegion6284-0-5-9-9-5"><rect
+           id="rect6286-6-6-3-3-0"
+           width="79.139633"
+           height="18.19302"
+           x="338.39017"
+           y="70.043121"
+           style="font-size:14px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;stroke:#00ff00;stroke-opacity:1;font-family:Nimbus Mono L;-inkscape-font-specification:Nimbus Mono L" /></flowRegion><flowPara
+         id="flowPara4112-6-1-3">TCO = 0</flowPara></flowRoot>  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer6"
+     inkscape:label="TCO:userQualified"
+     style="display:inline">
+    <path
+       sodipodi:type="arc"
+       id="path3052-0-6"
+       sodipodi:cx="468.01541"
+       sodipodi:cy="501.67252"
+       sodipodi:rx="111.43224"
+       sodipodi:ry="106.88399"
+       d="m 579.44765,501.67252 a 111.43224,106.88399 0 1 1 -222.86448,0 111.43224,106.88399 0 1 1 222.86448,0 z"
+       style="fill:none;stroke:#000000;stroke-width:3.54330707;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
+       transform="matrix(0.81501294,0,0,0.83692838,78.844746,180.50567)" />
+    <flowRoot
+       transform="translate(-29.108508,405.90797)"
+       xml:space="preserve"
+       id="flowRoot2994-3-1"
+       style="font-size:14px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:#000000;stroke-opacity:1;display:inline;font-family:Nimbus Mono L;-inkscape-font-specification:Nimbus Mono L Bold"><flowRegion
+         id="flowRegion2996-1-0"><rect
+           id="rect2998-2-63"
+           width="155.55031"
+           height="37.295689"
+           x="447.54828"
+           y="119.16428"
+           style="font-size:14px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;stroke:#000000;stroke-opacity:1;font-family:Nimbus Mono L;-inkscape-font-specification:Nimbus Mono L Bold" /></flowRegion><flowPara
+         id="flowPara5226">EAPAproved</flowPara></flowRoot>    <path
+       style="fill:none;stroke:#000000;stroke-width:1.77165353;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
+       d="m 392.96921,542.60682 c 135.53799,0 132.80903,0 132.80903,0"
+       id="path6357-0"
+       inkscape:connector-curvature="0" />
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot3002-7-7-3"
+       style="font-size:10px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;display:inline;font-family:Nimbus Mono L;-inkscape-font-specification:Nimbus Mono L"
+       transform="translate(-56.868402,444.21699)"><flowRegion
+         id="flowRegion3004-9-9-6"><rect
+           id="rect3006-8-2-7"
+           width="197.39432"
+           height="23.650923"
+           x="431.17456"
+           y="148.2731"
+           ry="0"
+           style="font-size:10px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;font-family:Nimbus Mono L;-inkscape-font-specification:Nimbus Mono L" /></flowRegion><flowPara
+         id="flowPara3963">TCO[id].userQualified = True</flowPara><flowPara
+         id="flowPara3965" /><flowPara
+         id="flowPara3967" /></flowRoot>    <path
+       style="fill:none;stroke:#000000;stroke-width:1.77165353;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-end:url(#Arrow1Mend)"
+       d="m 254.70226,592.18278 c 60.94661,-48.2115 110.97741,0 110.97741,0 l -3.43947,-5.95734 0.71052,-0.41022"
+       id="path3969"
+       inkscape:connector-curvature="0" />
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot6274-6-5"
+       style="font-size:11px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:#0000ff;stroke-width:0.99921262;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline;font-family:Nimbus Mono L;-inkscape-font-specification:Nimbus Mono L"
+       transform="translate(-77.799746,515.05522)"><flowRegion
+         id="flowRegion6276-18-9"><rect
+           id="rect6278-7-2"
+           width="121.89323"
+           height="24.560575"
+           x="332.93225"
+           y="40.934292"
+           style="font-size:11px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;stroke:#0000ff;stroke-width:0.99921262;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;font-family:Nimbus Mono L;-inkscape-font-specification:Nimbus Mono L" /></flowRegion><flowPara
+         id="flowPara4533">TCO:userQualified</flowPara></flowRoot>  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer7"
+     inkscape:label="TCO:finalize"
+     style="display:inline">
+    <path
+       sodipodi:type="arc"
+       id="path3052-0-6-6"
+       sodipodi:cx="468.01541"
+       sodipodi:cy="501.67252"
+       sodipodi:rx="111.43224"
+       sodipodi:ry="106.88399"
+       d="m 579.44765,501.67252 a 111.43224,106.88399 0 1 1 -222.86448,0 111.43224,106.88399 0 1 1 222.86448,0 z"
+       style="fill:none;stroke:#000000;stroke-width:3.54330707;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
+       transform="matrix(0.47763985,0,0,0.48099812,468.77812,365.53142)" />
+    <flowRoot
+       transform="matrix(0.58605186,0,0,0.57471838,408.89879,491.54627)"
+       xml:space="preserve"
+       id="flowRoot2994-3-1-2"
+       style="font-size:20.67691231px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:#000000;stroke-opacity:1;display:inline;font-family:Nimbus Mono L;-inkscape-font-specification:Nimbus Mono L Bold"><flowRegion
+         id="flowRegion2996-1-0-9"><rect
+           id="rect2998-2-63-1"
+           width="155.55031"
+           height="37.295689"
+           x="447.54828"
+           y="119.16428"
+           style="font-size:20.67691231px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;stroke:#000000;stroke-opacity:1;font-family:Nimbus Mono L;-inkscape-font-specification:Nimbus Mono L Bold" /></flowRegion><flowPara
+         id="flowPara4233">Burned</flowPara></flowRoot>    <path
+       style="fill:none;stroke:#000000;stroke-width:1.02819228;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
+       d="m 652.87134,573.63761 c 79.43229,0 77.83298,0 77.83298,0"
+       id="path6357-0-7"
+       inkscape:connector-curvature="0" />
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot3002-7-7-3-0"
+       style="font-size:17.23076057px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;display:inline;font-family:Nimbus Mono L;-inkscape-font-specification:Nimbus Mono L"
+       transform="matrix(0.58605186,0,0,0.57471838,412.52797,503.68477)"><flowRegion
+         id="flowRegion3004-9-9-6-9"><rect
+           id="rect3006-8-2-7-3"
+           width="197.39432"
+           height="23.650923"
+           x="431.17456"
+           y="148.2731"
+           ry="0"
+           style="font-size:17.23076057px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;font-family:Nimbus Mono L;-inkscape-font-specification:Nimbus Mono L" /></flowRegion><flowPara
+         id="flowPara4235">Owner = 0</flowPara><flowPara
+         id="flowPara4237" /><flowPara
+         id="flowPara4239" /></flowRoot>    <path
+       sodipodi:type="arc"
+       id="path3052-0-6-6-2"
+       sodipodi:cx="468.01541"
+       sodipodi:cy="501.67252"
+       sodipodi:rx="111.43224"
+       sodipodi:ry="106.88399"
+       d="m 579.44765,501.67252 a 111.43224,106.88399 0 1 1 -222.86448,0 111.43224,106.88399 0 1 1 222.86448,0 z"
+       style="fill:none;stroke:#000000;stroke-width:3.54330707;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
+       transform="matrix(0.52988652,0,0,0.53121273,444.65482,340.02642)" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1.77165353;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-end:url(#Arrow1Mend)"
+       d="m 550.77506,591.7695 c 43.29237,-40.88723 82.57618,0 82.57618,0"
+       id="path4241"
+       inkscape:connector-curvature="0" />
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot6282-20"
+       style="font-size:12px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:#00ff00;stroke-opacity:1;display:inline;font-family:Nimbus Mono L;-inkscape-font-specification:Nimbus Mono L"
+       transform="translate(221.62799,517.98788)"><flowRegion
+         id="flowRegion6284-2"><rect
+           id="rect6286-3"
+           width="79.139633"
+           height="18.19302"
+           x="338.39017"
+           y="70.043121"
+           style="font-size:12px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;stroke:#00ff00;stroke-opacity:1;font-family:Nimbus Mono L;-inkscape-font-specification:Nimbus Mono L" /></flowRegion><flowPara
+         id="flowPara4491">Owner = 0</flowPara></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot6274-6"
+       style="font-size:14px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:#0000ff;stroke-width:0.99921262;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline;font-family:Nimbus Mono L;-inkscape-font-specification:Nimbus Mono L"
+       transform="translate(213.22114,513.4518)"><flowRegion
+         id="flowRegion6276-18"><rect
+           id="rect6278-7"
+           width="121.89323"
+           height="24.560575"
+           x="332.93225"
+           y="40.934292"
+           style="font-size:14px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;stroke:#0000ff;stroke-width:0.99921262;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;font-family:Nimbus Mono L;-inkscape-font-specification:Nimbus Mono L" /></flowRegion><flowPara
+         id="flowPara4462">TCO:finalize</flowPara></flowRoot>  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer8"
+     inkscape:label="TO:sellToken"
+     style="display:inline">
+    <flowRoot
+       transform="translate(377.29108,163.44654)"
+       xml:space="preserve"
+       id="flowRoot2994-8"
+       style="font-size:14px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:#000000;stroke-opacity:1;display:inline;font-family:Nimbus Mono L;-inkscape-font-specification:Nimbus Mono L Bold"><flowRegion
+         id="flowRegion2996-9"><rect
+           id="rect2998-7"
+           width="155.55031"
+           height="37.295689"
+           x="447.54828"
+           y="119.16428"
+           style="font-size:14px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;stroke:#000000;stroke-opacity:1;font-family:Nimbus Mono L;-inkscape-font-specification:Nimbus Mono L Bold" /></flowRegion><flowPara
+         id="flowPara4605">Optioned</flowPara></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot3002-6"
+       style="font-size:12px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;display:inline;font-family:Nimbus Mono L;-inkscape-font-specification:Nimbus Mono L"
+       transform="translate(346.41533,167.73137)"><flowRegion
+         id="flowRegion3004-1"><rect
+           id="rect3006-2"
+           width="172.83371"
+           height="162.82751"
+           x="431.17456"
+           y="148.2731"
+           ry="0"
+           style="font-size:12px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;font-family:Nimbus Mono L;-inkscape-font-specification:Nimbus Mono L" /></flowRegion><flowPara
+         id="flowPara4607">Option:</flowPara><flowPara
+         id="flowPara4609">  Buyer = 'addrB</flowPara><flowPara
+         id="flowPara4611">  Currency = 'addrC | 0</flowPara><flowPara
+         id="flowPara4613">  Price = 'p </flowPara><flowPara
+         id="flowPara4615">  Expires = 'block</flowPara><flowPara
+         id="flowPara4617" /></flowRoot>    <path
+       sodipodi:type="arc"
+       id="path3052-03"
+       sodipodi:cx="468.01541"
+       sodipodi:cy="501.67252"
+       sodipodi:rx="111.43224"
+       sodipodi:ry="106.88399"
+       d="m 579.44765,501.67252 a 111.43224,106.88399 0 1 1 -222.86448,0 111.43224,106.88399 0 1 1 222.86448,0 z"
+       style="fill:none;stroke:#000000;stroke-width:3.54330707;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
+       transform="translate(393.6648,-129.46108)" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1.77165353;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
+       d="m 779.3568,300.80382 c 163.73717,0.90966 165.55648,0 165.55648,0 l -4.54826,0.90966 0.90965,0 2.72896,-0.90966"
+       id="path5272-6"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1.77165353;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-end:url(#Arrow1Mend)"
+       d="m 586.16931,163.59413 c 180.27257,-58.95707 250.56753,103.17486 250.56753,103.17486 l 0,0 0,2.26758 -3.40137,2.26758 6.80274,-3.40137"
+       id="path4619"
+       inkscape:connector-curvature="0" />
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot6274-1"
+       style="font-size:14px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:#0000ff;stroke-width:0.99921262;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline;font-family:Nimbus Mono L;-inkscape-font-specification:Nimbus Mono L"
+       transform="matrix(0.87474347,0.48458627,-0.48458627,0.87474347,450.61605,-60.202258)"><flowRegion
+         id="flowRegion6276-0"><rect
+           id="rect6278-6"
+           width="121.89323"
+           height="24.560575"
+           x="332.93225"
+           y="40.934292"
+           style="font-size:14px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;stroke:#0000ff;stroke-width:0.99921262;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;font-family:Nimbus Mono L;-inkscape-font-specification:Nimbus Mono L" /></flowRegion><flowPara
+         id="flowPara4840">TO:sellToken</flowPara></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot3002-6-2"
+       style="font-size:12px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:#00ff00;stroke-opacity:1;display:inline;font-family:Nimbus Mono L;-inkscape-font-specification:Nimbus Mono L"
+       transform="matrix(0.87650852,0.48138636,-0.48138636,0.87650852,355.66162,-169.86836)"><flowRegion
+         id="flowRegion3004-1-0"><rect
+           id="rect3006-2-6"
+           width="172.83371"
+           height="162.82751"
+           x="431.17456"
+           y="148.2731"
+           ry="0"
+           style="font-size:12px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;stroke:#00ff00;stroke-opacity:1;font-family:Nimbus Mono L;-inkscape-font-specification:Nimbus Mono L" /></flowRegion><flowPara
+         id="flowPara5211">Option.Buyer = 'addrB</flowPara><flowPara
+         id="flowPara5213">Currency  = 'addrC | 0</flowPara><flowPara
+         id="flowPara5215">Price = 'P</flowPara><flowPara
+         id="flowPara5217">Expires = 'block</flowPara></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot6282-2-4-7"
+       style="font-size:14px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:#ff0000;stroke-opacity:1;display:inline;font-family:Nimbus Mono L;-inkscape-font-specification:Nimbus Mono L"
+       transform="matrix(0.88191304,0.47141212,-0.47141212,0.88191304,401.07744,-73.066838)"><flowRegion
+         id="flowRegion6284-0-4-8"><rect
+           id="rect6286-6-3-6"
+           width="169.31285"
+           height="31.928839"
+           x="338.39017"
+           y="70.043121"
+           style="font-size:14px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;stroke:#ff0000;stroke-opacity:1;font-family:Nimbus Mono L;-inkscape-font-specification:Nimbus Mono L"
+           ry="1.0434157" /></flowRegion><flowPara
+         id="flowPara5246">Option.Expires &gt; now</flowPara></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot3002-6-6"
+       style="font-size:12px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:#ff0000;stroke-opacity:1;display:inline;font-family:Nimbus Mono L;-inkscape-font-specification:Nimbus Mono L"
+       transform="translate(382.43597,249.78791)"><flowRegion
+         id="flowRegion3004-1-8"><rect
+           id="rect3006-2-9"
+           width="172.83371"
+           height="162.82751"
+           x="431.17456"
+           y="148.2731"
+           ry="0"
+           style="font-size:12px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;stroke:#ff0000;stroke-opacity:1;font-family:Nimbus Mono L;-inkscape-font-specification:Nimbus Mono L" /></flowRegion><flowPara
+         id="flowPara5541">Expires + now </flowPara><flowPara
+         id="flowPara5543">&lt;= 10 days</flowPara><flowPara
+         id="flowPara5545" /></flowRoot>  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer9"
+     inkscape:label="WO:buyToken"
+     style="display:inline">
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1.77165353;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-end:url(#Arrow1Mend)"
+       d="M 743.76608,358.60596 C 624.71816,360.87354 569.16246,279.24068 569.16246,279.24068"
+       id="path4913"
+       inkscape:connector-curvature="0" />
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot6274-1-5"
+       style="font-size:14px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:#0000ff;stroke-width:0.99921262;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline;font-family:Nimbus Mono L;-inkscape-font-specification:Nimbus Mono L"
+       transform="matrix(0.90833734,0.41823829,-0.41823829,0.90833734,327.39341,124.01501)"><flowRegion
+         id="flowRegion6276-0-6"><rect
+           id="rect6278-6-9"
+           width="121.89323"
+           height="24.560575"
+           x="332.93225"
+           y="40.934292"
+           style="font-size:14px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;stroke:#0000ff;stroke-width:0.99921262;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;font-family:Nimbus Mono L;-inkscape-font-specification:Nimbus Mono L" /></flowRegion><flowPara
+         id="flowPara5136">WO:buyToken</flowPara></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot3002-6-2-7"
+       style="font-size:12px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:#ff0000;stroke-opacity:1;display:inline;font-family:Nimbus Mono L;-inkscape-font-specification:Nimbus Mono L"
+       transform="matrix(0.89959639,0.43672227,-0.43672227,0.89959639,252.20202,-11.342381)"><flowRegion
+         id="flowRegion3004-1-0-4"><rect
+           id="rect3006-2-6-5"
+           width="172.83371"
+           height="162.82751"
+           x="431.17456"
+           y="148.2731"
+           ry="0"
+           style="font-size:12px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;stroke:#ff0000;stroke-opacity:1;font-family:Nimbus Mono L;-inkscape-font-specification:Nimbus Mono L" /></flowRegion><flowPara
+         id="flowPara5174">WO.addr == Option.Buyer</flowPara><flowPara
+         id="flowPara5176">price &gt; Option.Price</flowPara><flowPara
+         id="flowPara5178">currency == Option.Currency</flowPara><flowPara
+         id="flowPara5180">Expires &gt;= now</flowPara></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot6282-2-4"
+       style="font-size:14px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:#00ff00;stroke-opacity:1;display:inline;font-family:Nimbus Mono L;-inkscape-font-specification:Nimbus Mono L"
+       transform="matrix(0.91336037,0.4071521,-0.4071521,0.91336037,257.71476,179.44271)"><flowRegion
+         id="flowRegion6284-0-4"><rect
+           id="rect6286-6-3"
+           width="146.28116"
+           height="24.817015"
+           x="338.39017"
+           y="70.043121"
+           style="font-size:14px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;stroke:#00ff00;stroke-opacity:1;font-family:Nimbus Mono L;-inkscape-font-specification:Nimbus Mono L"
+           ry="1.0434157" /></flowRegion><flowPara
+         id="flowPara5209">Owner = WO:addr</flowPara></flowRoot>  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer10"
+     inkscape:label="Option Expires"
+     style="display:inline">
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1.77165353;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:7.08661417, 1.77165354;stroke-dashoffset:0;marker-end:url(#Arrow1Mend)"
+       d="M 820.86379,470.85115 C 450.11453,484.45663 484.12823,320.05711 484.12823,320.05711 l 0,0"
+       id="path5249"
+       inkscape:connector-curvature="0" />
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot6274-1-8"
+       style="font-size:14px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:#0000ff;stroke-width:0.99921262;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline;font-family:Nimbus Mono L;-inkscape-font-specification:Nimbus Mono L"
+       transform="matrix(0.93429884,0.35649076,-0.35649076,0.93429884,251.54512,252.65147)"
+       inkscape:transform-center-x="12.419783"
+       inkscape:transform-center-y="0.5543804"><flowRegion
+         id="flowRegion6276-0-4"><rect
+           id="rect6278-6-3"
+           width="121.89323"
+           height="24.560575"
+           x="332.93225"
+           y="40.934292"
+           style="font-size:14px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;stroke:#0000ff;stroke-width:0.99921262;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;font-family:Nimbus Mono L;-inkscape-font-specification:Nimbus Mono L" /></flowRegion><flowPara
+         id="flowPara4840-1">TO:sellToken</flowPara></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot6282-2-4-7-4"
+       style="font-size:14px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:#ff0000;stroke-opacity:1;display:inline;font-family:Nimbus Mono L;-inkscape-font-specification:Nimbus Mono L"
+       transform="matrix(0.93701451,0.34929045,-0.34929045,0.93701451,212.18904,235.03255)"><flowRegion
+         id="flowRegion6284-0-4-8-9"><rect
+           id="rect6286-6-3-6-2"
+           width="197.31943"
+           height="22.454845"
+           x="338.39017"
+           y="70.043121"
+           style="font-size:14px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;stroke:#ff0000;stroke-opacity:1;font-family:Nimbus Mono L;-inkscape-font-specification:Nimbus Mono L"
+           ry="1.0434157" /></flowRegion><flowPara
+         id="flowPara5497">Option.Expires &lt;= now</flowPara></flowRoot>  </g>
+</svg>
