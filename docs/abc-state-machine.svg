@@ -104,6 +104,19 @@
          style="fill-rule:evenodd;stroke-width:0.40000001;stroke-linejoin:round"
          d="M -5.5798962,-2.5815905 1.4126653,-0.01024849 -5.5798966,2.561093 c 1.117119,-1.518119 1.1106821,-3.5951692 4e-7,-5.1426835 z" />
     </marker>
+    <marker
+       inkscape:stockid="Arrow1Mend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Mend-3"
+       style="overflow:visible">
+      <path
+         id="path5469-6"
+         d="M -4.2666667,0 -6.4,2.1333333 1.0666667,0 -6.4,-2.1333333 Z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:0.42666668pt"
+         inkscape:connector-curvature="0" />
+    </marker>
   </defs>
   <sodipodi:namedview
      inkscape:document-units="mm"
@@ -113,9 +126,9 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.88199774"
-     inkscape:cx="324.38295"
+     inkscape:cx="118.60011"
      inkscape:cy="336.81309"
-     inkscape:current-layer="layer10"
+     inkscape:current-layer="layer2"
      id="namedview2989"
      showgrid="false"
      inkscape:window-width="1920"
@@ -131,7 +144,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -335,7 +348,38 @@
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14px;line-height:125%;font-family:'Nimbus Mono L';-inkscape-font-specification:'Nimbus Mono L';text-align:start;writing-mode:lr-tb;text-anchor:start;stroke:#00ff00;stroke-opacity:1"
            ry="1.0434157" /></flowRegion><flowPara
          id="flowPara4114"
-         style="font-size:14px;line-height:1.25">TCO = 'addrTC</flowPara></flowRoot>  </g>
+         style="font-size:14px;line-height:1.25">TCO = 'addrTC</flowPara></flowRoot>    <path
+       style="display:inline;fill:none;stroke:#000000;stroke-width:2.2411108;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow1Mend-3)"
+       d="M 471.95668,546.32899 C 508.14657,418.41586 491.98538,337.4233 491.98538,337.4233"
+       id="path4117-7"
+       inkscape:connector-curvature="0" />
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot6274-7-3-9-5"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:0.01%;font-family:'Nimbus Mono L';-inkscape-font-specification:'Nimbus Mono L';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;display:inline;fill:#000000;fill-opacity:1;stroke:#0000ff;stroke-width:0.99921262;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       transform="matrix(0.16008187,-1.0531441,1.0226436,0.16864079,360.88808,883.40243)"><flowRegion
+         id="flowRegion6276-1-6-1-3"><rect
+           id="rect6278-3-7-2-5"
+           width="139.33063"
+           height="23.111776"
+           x="332.93225"
+           y="40.934292"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:13px;line-height:125%;font-family:'Nimbus Mono L';-inkscape-font-specification:'Nimbus Mono L';text-align:start;writing-mode:lr-tb;text-anchor:start;stroke:#0000ff;stroke-width:0.99921262;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" /></flowRegion><flowPara
+         id="flowPara4338-6"
+         style="font-size:13px;line-height:1.25">TCO:userRejected</flowPara></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot6282-2-3-0-29"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:0.01%;font-family:'Nimbus Mono L';-inkscape-font-specification:'Nimbus Mono L';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;display:inline;fill:#000000;fill-opacity:1;stroke:#00ff00;stroke-opacity:1"
+       transform="matrix(0.17986731,-1.0504355,1.019239,0.18537263,355.47727,843.87023)"><flowRegion
+         id="flowRegion6284-0-5-9-1"><rect
+           id="rect6286-6-6-3-2"
+           width="79.139633"
+           height="18.19302"
+           x="338.39017"
+           y="70.043121"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14px;line-height:125%;font-family:'Nimbus Mono L';-inkscape-font-specification:'Nimbus Mono L';text-align:start;writing-mode:lr-tb;text-anchor:start;stroke:#00ff00;stroke-opacity:1" /></flowRegion><flowPara
+         id="flowPara4112-6-7"
+         style="font-size:14px;line-height:1.25">TCO = 0</flowPara></flowRoot>  </g>
   <g
      inkscape:groupmode="layer"
      id="layer3"
