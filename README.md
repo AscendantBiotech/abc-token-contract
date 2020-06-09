@@ -1,5 +1,5 @@
-# ERC-1155 token smart contract
-
+# NFT Auction contract
+Ethereum smart contract to do NFT auction.
 
 ## Prerequisites
 
@@ -36,7 +36,7 @@ Result of compilation will be generated to `{project_root}/build/contracts/`
 
 #### Deploy smart contract
 In order to deploy you need to have an existing ethereum node to deploy the contract to.
-Default port is 8545.
+If you don't have one please take a look [private network](#private-network) section.
 
 If your ethereum node ready, then
 ```bash

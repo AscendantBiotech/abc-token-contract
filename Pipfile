@@ -7,12 +7,12 @@ verify_ssl = true
 ipdb = "*"
 pytest = "*"
 black = "*"
-eth-tester = "*"
+eth-tester = "==v0.4.0b1"
 pytest-cov = "*"
-py-evm = "*"
+py-evm = "==v0.3.0-alpha.13"
+vyper = {path = "vyper"}
 
 [packages]
-vyper = "==0.1.0b12"
 web3 = "*"
 eth-utils = "*"
 python-dateutil = "*"
