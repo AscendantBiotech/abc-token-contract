@@ -1,8 +1,67 @@
+##################### CONSTANTS #####################
+CONTRACT_VERSION : constant(uint256) = 1000002  # Update this as behavior changes.
+# 1000001 - initial working token call prototype
+# 1000002 - updated state machine implementation
 
+# keccak256("onRequestFromTokenCall()")
+FROM_TOKEN_CALL: constant(bytes32) = 0x095332897a16faaf295be718bfc48721e7de9e87ff680ab2dd0179fb892881ea
+HOUR: constant(timedelta) = 3600
+
+# FOR ASC BATCH OPERATIONS #
+MAX_BATCH_SIZE: constant(uint256) = 100
+
+# SKIP LIST CONFIGURATION #
+BASE_TOKEN_ID: constant(uint256) = 0
+DEEPEST_LEVEL: constant(int128) = 0
+MAX_TOKENS: constant(uint256) = 5000000
+MAX_QUEUE_SIZE: constant(uint256) = 5000000 * 10
+MAX_LEVEL: constant(int128) = 6
+PROMOTION_CONSTANT: constant(int128) = 3  # promote probability = 2 ^ PROMOTION_CONSTANT 
+UNPROMOTE_PROB: constant(int128) = (2 ** 3) - 1
+
+PREFERRED_TOKEN_TYPE: constant(int128) = 0
+REGULAR_TOKEN_TYPE: constant(int128) = 1
+
+
+# STATE MACHINE #
+# States #
+UNKNOWN: constant(int128) = 0
+PENDING: constant(int128) = 1
+PAUSED: constant(int128) = 2
+OPEN: constant(int128) = 3
+CLOSED: constant(int128) = 4
+FINISHED: constant(int128) = 5
+
+## Events ##
+TCO_PAUSE_TC: constant(int128) = 0
+TCO_UNPAUSE_TC: constant(int128) = 1
+# 2 finishing events are needed, because the exit state can vary for the single event based on a condition
+TCO_FINISH_TC_REMAINING: constant(int128) = 2
+TCO_FINISH_TC_EMPTY: constant(int128) = 3
+TCO_DOCS_SUBMITTED: constant(int128) = 4
+TCO_USER_QUALIFIED: constant(int128) = 5
+TCO_USER_REJECTED: constant(int128) = 6
+TO_APPLY_TOKEN: constant(int128) = 7
+TO_REMOVE_TOKEN: constant(int128) = 8
+
+
+STATE_TRANSITION_MATRIX: constant(int128[6][9]) = \
+    [   [0,PAUSED,0,PAUSED,0,0], # TCO_PAUSE_TC
+        [0,PENDING,0,OPEN,0,0],  # TCO_UNPAUSE_TC
+        [0,0,0,0,CLOSED,0],      # TCO_FINISH_TC_REMAINING
+        [0,0,0,0,FINISHED,0],    # TCO_FINISH_TC_EMPTY
+        [0,0,0,OPEN,CLOSED,0],   # TCO_DOCS_SUBMITTED
+        [0,0,0,OPEN,CLOSED,0],   # TCO_USER_QUALIFIED
+        [0,0,0,OPEN,CLOSED,0],   # TCO_USER_REJECTED
+        [0,0,0,OPEN,0,0],        # TO_APPLY_TOKEN
+        [0,0,0,OPEN,0,0],        # TO_REMOVE_TOKEN
+    ]
+
+
+
+##################### STRUCTS #####################
 struct TokenApplication:
     tokenId: uint256
-    dataSubmitted: bool
-    userQualified: bool
     prevToken: uint256
     nextToken: uint256
 
@@ -12,16 +71,19 @@ struct TokenList:
     tokenCount: uint256
     levels: map(uint256, TokenApplication)[6]
 
+struct Transaction:
+    entry_state: int128
+    exit_state: int128
 
-# External Contracts
-contract ABC:
+
+##################### EXTERNAL CONTRACTS #####################
+contract ASCToken:
     def isNonFungible(_tokenId: uint256) -> bool: constant
     def isFungible(_tokenId: uint256) -> bool: constant
     def getNonFungibleIndex(_tokenId: uint256) -> uint256: constant
     def getNonFungibleBaseType(_tokenId: uint256) -> uint256: constant
     def isNonFungibleBaseType(_tokenId: uint256) -> bool: constant
     def isNonFungibleItem(_tokenId: uint256) -> bool: constant
-    def ownerOf(_tokenId: uint256) -> address: constant
     def safeTransferFrom(_from: address, _to: address, _tokenId: uint256, _value: uint256, _data: bytes[1024]): modifying
     def safeBatchTransferFrom(_from: address, _to: address, _tokenIds: uint256[100], _values: uint256[100], _data: bytes[1024]): modifying
     def balanceOf(_owner: address, _tokenId: uint256) -> uint256: constant
@@ -34,48 +96,41 @@ contract ABC:
     def mintFungibleToken(_tokenId: uint256, _to: address[100], _quantities: uint256[100]): modifying
     def setURI(_uri: string[256], _id: uint256): modifying
     def tokenCallApprove(_tokenCall: address, _tokenId: uint256): modifying
-    def applyTokenCall(_tokenId: uint256): modifying
-    def withdrawFromTokenCall(_tokenId: uint256): modifying
-    def burnToken(_tokenId: uint256): modifying
+    def applyToken(_tokenId: uint256): modifying
+    def removeToken(_tokenId: uint256): modifying
+    def userRejected(_tokenId: uint256): modifying
+    def finalize(_tokenId: uint256): modifying
     def owners(arg0: uint256) -> address: constant
     def tokenTypes__tokenTypeId(arg0: uint256) -> uint256: constant
     def tokenTypes__uri(arg0: uint256) -> string[256]: constant
     def tokenTypes__creator(arg0: uint256) -> address: constant
     def tokenTypes__mintedQty(arg0: uint256) -> uint256: constant
-    def nfTokens__id(arg0: uint256) -> uint256: constant
-    def nfTokens__owner(arg0: uint256) -> address: constant
-    def nfTokens__tokenCall(arg0: uint256) -> address: constant
+    def owner(arg0: uint256) -> address: constant
+    def docsSubmitted(_tid: uint256): modifying
+    def userQualified(_tid: uint256): modifying
     def nonce() -> uint256: constant
+    def tokenServices(tokenType: uint256) -> address: constant
 
 
-CONTRACT_VERSION : constant(uint256) = 1000001  # Update this as behavior changes.
-
-# keccak256("onRequestFromTokenCall()")
-FROM_TOKEN_CALL: constant(bytes32) = 0x095332897a16faaf295be718bfc48721e7de9e87ff680ab2dd0179fb892881ea
-
-BASE_TOKEN_ID: constant(uint256) = 0
-DEEPEST_LEVEL: constant(int128) = 0
-HOUR: constant(timedelta) = 3600
-
-# ABC token
-MAX_BATCH_SIZE: constant(uint256) = 100
-
-# Contract configuration
-MAX_TOKENS: constant(uint256) = 5000000
-MAX_QUEUE_SIZE: constant(uint256) = 5000000 * 10
-MAX_LEVEL: constant(int128) = 6
-PROMOTION_CONSTANT: constant(int128) = 3  # promote probability = 2 ^ PROMOTION_CONSTANT 
-UNPROMOTE_PROB: constant(int128) = (2 ** 3) - 1
-
-PREFERRED_TOKEN_TYPE: constant(int128) = 0
-REGULAR_TOKEN_TYPE: constant(int128) = 1
+##################### BLOCKCHAIN LOG EVENTS #####################
+TokenApply: event({_tokenId: indexed(uint256), _tokenOwner: address})
+TokenWithdraw: event({_tokenId: indexed(uint256), _tokenOwner: address})
+TokenReject: event({_tokenId: indexed(uint256)})
+TokenDataSubmitted: event({_tokenId: indexed(uint256)})
+TokenUserQualified: event({_tokenId: indexed(uint256)})
+TokenCallPause: event({})
+TokenCallUnpause: event({})
+TokenBatchDataSubmitted: event({_tokenIds: uint256[MAX_BATCH_SIZE]})
+TokenBatchUserQualified: event({_tokenIds: uint256[MAX_BATCH_SIZE]})
+TokenCallFinalize: event({_size: uint256})
+EntryStateLog: event({_entry_state: int128, _exit_state: int128, _event: int128})
+ExitStateLog: event({_exit_state: int128})
+StateCount: event({_state_count: int128})
+UnAuthorizedEventRequest: event({_event: int128, _origin_address: address, _auth_address: address})
 
 
-PENDING_STATE: constant(uint256) = 1
-PAUSED_STATE: constant(uint256) = 2
-OPEN_STATE: constant(uint256) = 3
-CLOSED_STATE: constant(uint256) = 4
 
+##################### STORAGES #####################
 tokenContract: address
 
 maxTokens: public(uint256)
@@ -87,8 +142,10 @@ startDate: public(timestamp)
 endDate: public(timestamp)
 
 tokenLists: public(TokenList[2])
+StateTransition: int128[6][9]
 
 
+##################### CONSTANT FUNCTIONS #####################
 @public
 @constant
 def contractVersion() -> uint256:
@@ -97,27 +154,23 @@ def contractVersion() -> uint256:
 
 @public
 @constant
+def onRequestFromTokenCall() -> bytes32:
+    return FROM_TOKEN_CALL
+
+
+
+# Skip list functions #
+@public
+@constant
 def getDeepestLevel() -> int128:
     return DEEPEST_LEVEL
 
 
 @private
 @constant
-def _getState() -> uint256:
-    if block.timestamp < self.endDate:
-        if self.paused:
-            return PAUSED_STATE
-        else:
-            if block.timestamp < self.startDate:
-                return PENDING_STATE
-            return OPEN_STATE
-    return CLOSED_STATE
-
-
-@public
-@constant
-def getState() -> uint256:
-    return self._getState()
+def tokensRemaining() -> bool:
+    return self.tokenLists[PREFERRED_TOKEN_TYPE].tokenCount == 0 and \
+           self.tokenLists[REGULAR_TOKEN_TYPE].tokenCount == 0
 
 
 @private
@@ -148,9 +201,10 @@ def getLevel(_tokenId: uint256, _sender: address) -> int128:
 
 
 @private
+@constant
 def _getTokenTypeIndex(_tokenId: uint256) -> int128:
-    tokenTypeId: uint256 = ABC(self.tokenContract).getNonFungibleBaseType(_tokenId)
-    tokenTypeIndex: int128
+    tokenTypeId: uint256 = ASCToken(self.tokenContract).getNonFungibleBaseType(_tokenId)
+    tokenTypeIndex: int128 = 0
 
     if tokenTypeId == self.tokenLists[PREFERRED_TOKEN_TYPE].tokenTypeId:
         tokenTypeIndex = PREFERRED_TOKEN_TYPE
@@ -166,6 +220,115 @@ def _getTokenTypeIndex(_tokenId: uint256) -> int128:
 def getTokenTypeIndex(_tokenId: uint256) -> int128:
     return self._getTokenTypeIndex(_tokenId)
 
+
+
+# State Machine functions #
+@private
+@constant
+def _isPausedState() -> int128:
+    if self.paused:
+        if  block.timestamp >= self.startDate and \
+            block.timestamp >= self.endDate:
+            # Token Call has expired #
+            return CLOSED
+        else:
+            return PAUSED
+    return UNKNOWN
+
+
+# Ensure Token Call is in one state at a moment of time #
+@private
+@constant
+def _getState() -> int128:
+    count: int128 = 0
+    temp_state: int128 = UNKNOWN
+    result: int128 = UNKNOWN
+
+    if self.contractOwner == ZERO_ADDRESS:
+        if not self.tokensRemaining():
+            count += 1
+            result = FINISHED
+    elif self.paused:
+        temp_state = self._isPausedState()
+        if temp_state != UNKNOWN:
+            count += 1
+            result = temp_state
+    elif not self.paused:
+        if block.timestamp >= self.startDate:
+            if block.timestamp < self.endDate:
+                count += 1
+                result = OPEN
+            else:
+                count += 1
+                result = CLOSED
+        else:
+            if block.timestamp < self.endDate:
+                count += 1
+                result = PENDING
+
+    log.StateCount(count)
+    if count != 1:
+        return UNKNOWN
+
+    return result
+
+
+@public
+@constant
+def getState() -> int128:
+    return self._getState()
+
+
+@private
+@constant
+def _isState(_state: int128) -> bool:
+   return self._getState() == _state
+
+
+@private
+@constant
+def isAuthorizedForTransition(_event: int128, _sender: address, _tokenTypeId: uint256) -> bool:
+    if _event in [TCO_PAUSE_TC,TCO_FINISH_TC_REMAINING,TCO_UNPAUSE_TC,
+                  TCO_FINISH_TC_EMPTY,TCO_DOCS_SUBMITTED,
+                  TCO_USER_QUALIFIED,TCO_USER_REJECTED]:
+        if _sender != self.contractOwner:
+            log.UnAuthorizedEventRequest(_event, _sender, self.contractOwner)
+        return _sender == self.contractOwner
+    elif _event in [TO_APPLY_TOKEN,TO_REMOVE_TOKEN]:
+        tokenService: address = ASCToken(self.tokenContract).tokenServices(_tokenTypeId)
+        if _sender != tokenService:
+            log.UnAuthorizedEventRequest(_event, _sender, self.tokenContract)
+        return _sender == tokenService
+    else:
+        log.UnAuthorizedEventRequest(_event, _sender, ZERO_ADDRESS)
+        return False
+
+
+@private
+@constant
+def preStateTransition(_sender: address, _event: int128, _tokenTypeId: uint256 = 0) -> Transaction:
+    assert self.isAuthorizedForTransition(_event, _sender, _tokenTypeId)
+    co: address = self.contractOwner
+    _entry_state : int128 = self._getState()
+    _exit_state : int128 = self.StateTransition[_event][_entry_state]
+
+    assert _exit_state != UNKNOWN
+
+    log.EntryStateLog(_entry_state, _exit_state, _event)
+
+    return Transaction({ entry_state: _entry_state,
+                         exit_state:  _exit_state  })
+
+
+@private
+@constant
+def postStateTransition(_xtrans: Transaction):
+    log.ExitStateLog(_xtrans.exit_state)
+    assert self._isState(_xtrans.exit_state)
+
+
+
+##################### MODIFYING FUNCTIONS #####################
 
 @private
 def insertToken(_tokenTypeIndex: int128, _tokenId: uint256, _sender: address):
@@ -187,8 +350,6 @@ def insertToken(_tokenTypeIndex: int128, _tokenId: uint256, _sender: address):
             nextToken: uint256 = self.tokenLists[_tokenTypeIndex].levels[level][cursorTokenId].nextToken
             newToken: TokenApplication = TokenApplication({
                 tokenId: _tokenId,
-                dataSubmitted: False,
-                userQualified: False,
                 prevToken: cursorTokenId,
                 nextToken: nextToken,
             })
@@ -206,7 +367,7 @@ def insertToken(_tokenTypeIndex: int128, _tokenId: uint256, _sender: address):
 
 
 @private
-def removeToken(_tokenTypeIndex: int128, _tokenId: uint256):
+def _removeToken(_tokenTypeIndex: int128, _tokenId: uint256):
     assert _tokenId != 0
 
     nextToken: uint256 = self.tokenLists[_tokenTypeIndex].levels[DEEPEST_LEVEL][_tokenId].nextToken
@@ -220,14 +381,12 @@ def removeToken(_tokenTypeIndex: int128, _tokenId: uint256):
         self.tokenLists[_tokenTypeIndex].levels[level][token.nextToken].prevToken = token.prevToken
         self.tokenLists[_tokenTypeIndex].levels[level][_tokenId] = TokenApplication({
                 tokenId: 0,
-                dataSubmitted: False,
-                userQualified: False,
                 prevToken: 0,
                 nextToken: 0,
             })
 
     self.tokenLists[_tokenTypeIndex].tokenCount -= 1
-    
+
     if self.tokenLists[_tokenTypeIndex].firstToken == _tokenId:
         self.tokenLists[_tokenTypeIndex].firstToken = nextToken
 
@@ -276,25 +435,15 @@ def __init__(
     self.startDate = _startDate
     self.endDate = _endDate
 
-
-@public
-@constant
-def onRequestFromTokenCall() -> bytes32:
-    return FROM_TOKEN_CALL
-
-
-@public
-@constant
-def isOpen() -> bool:
-    return block.timestamp >= self.startDate and block.timestamp < self.endDate
+    self.StateTransition = STATE_TRANSITION_MATRIX
 
 
 @public
 def applyToken(_tokenId: uint256):
-    assert self._getState() == OPEN_STATE
+    tokenTypeId: uint256 = ASCToken(self.tokenContract).getNonFungibleBaseType(_tokenId)
+    tokenTypeIndex: int128 = 0
 
-    tokenTypeId: uint256 = ABC(self.tokenContract).getNonFungibleBaseType(_tokenId)
-    tokenTypeIndex: int128
+    xtrans: Transaction = self.preStateTransition(msg.sender, TO_APPLY_TOKEN, tokenTypeId)
 
     if tokenTypeId == self.tokenLists[PREFERRED_TOKEN_TYPE].tokenTypeId:
         tokenTypeIndex = PREFERRED_TOKEN_TYPE
@@ -303,104 +452,141 @@ def applyToken(_tokenId: uint256):
     else:
         assert False, 'Invalid token type!'
 
-    ABC(self.tokenContract).applyTokenCall(_tokenId)
-
     self.insertToken(tokenTypeIndex, _tokenId, msg.sender)
+    log.TokenApply(_tokenId, msg.sender)
+
+    self.postStateTransition(xtrans)
 
 
 @public
-def withdrawToken(_tokenId: uint256):
-    assert self._getState() == OPEN_STATE
+def removeToken(_tokenId: uint256):
+    tokenTypeId: uint256 = ASCToken(self.tokenContract).getNonFungibleBaseType(_tokenId)
+    xtrans: Transaction = self.preStateTransition(msg.sender, TO_REMOVE_TOKEN, tokenTypeId)
 
-    assert ABC(self.tokenContract).nfTokens__owner(_tokenId) == msg.sender, 'Wrong token owner'
-
-    ABC(self.tokenContract).withdrawFromTokenCall(_tokenId)
     tokenTypeIndex: int128 = self._getTokenTypeIndex(_tokenId)
-    self.removeToken(tokenTypeIndex, _tokenId)
+    self._removeToken(tokenTypeIndex, _tokenId)
+    log.TokenWithdraw(_tokenId, msg.sender)
+
+    self.postStateTransition(xtrans)
 
 
 @public
-def rejectToken(_tokenId: uint256):
-    assert self.contractOwner == msg.sender
+def userRejected(_tokenId: uint256):
+    xtrans: Transaction = self.preStateTransition(msg.sender, TCO_USER_REJECTED)
 
-    state: uint256 = self._getState()
-    assert state == OPEN_STATE or state == CLOSED_STATE
-
-    ABC(self.tokenContract).withdrawFromTokenCall(_tokenId)
+    ASCToken(self.tokenContract).userRejected(_tokenId)
     tokenTypeIndex: int128 = self._getTokenTypeIndex(_tokenId)
-    self.removeToken(tokenTypeIndex, _tokenId)
+    self._removeToken(tokenTypeIndex, _tokenId)
+    log.TokenReject(_tokenId)
+
+    self.postStateTransition(xtrans)
 
 
 @public
 def pause():
-    assert self.contractOwner == msg.sender
-    assert self._getState() != CLOSED_STATE
+    xtrans: Transaction = self.preStateTransition(msg.sender, TCO_PAUSE_TC)
 
     self.paused = True
+    log.TokenCallPause()
+
+    self.postStateTransition(xtrans)
 
 
 @public
 def unPause():
-    assert self.contractOwner == msg.sender
-    assert self._getState() == PAUSED_STATE
+    xtrans: Transaction = self.preStateTransition(msg.sender, TCO_UNPAUSE_TC)
 
     self.paused = False
+    log.TokenCallUnpause()
+
+    self.postStateTransition(xtrans)
 
 
-@public
-def approveToken(_tokenId: uint256, _dataSubmitted: bool, _userQualified: bool):
-    assert self.contractOwner == msg.sender
-    state: uint256 = self._getState()
-    assert state == OPEN_STATE or state == CLOSED_STATE
-
-
+@private
+def _docsSubmitted(_tokenId: uint256):
     tokenTypeIndex: int128 = self._getTokenTypeIndex(_tokenId)
-
     assert self.tokenLists[tokenTypeIndex].levels[DEEPEST_LEVEL][_tokenId].tokenId != 0
 
-    if _dataSubmitted:
-        self.tokenLists[tokenTypeIndex].levels[DEEPEST_LEVEL][_tokenId].dataSubmitted = _dataSubmitted
+    ASCToken(self.tokenContract).docsSubmitted(_tokenId)
+    log.TokenDataSubmitted(_tokenId)
 
-    if _userQualified:
-        self.tokenLists[tokenTypeIndex].levels[DEEPEST_LEVEL][_tokenId].userQualified = _userQualified
+
+@private
+def _userQualified(_tokenId: uint256):
+    tokenTypeIndex: int128 = self._getTokenTypeIndex(_tokenId)
+    assert self.tokenLists[tokenTypeIndex].levels[DEEPEST_LEVEL][_tokenId].tokenId != 0
+
+    ASCToken(self.tokenContract).userQualified(_tokenId)
+    log.TokenUserQualified(_tokenId)
 
 
 @public
-def batchApproveTokens(_tokenIds: uint256[MAX_BATCH_SIZE], _dataSubmitted: bool[MAX_BATCH_SIZE], _userQualified: bool[MAX_BATCH_SIZE]):
-    assert self.contractOwner == msg.sender
-    state: uint256 = self._getState()
-    assert state == OPEN_STATE or state == CLOSED_STATE
+def docsSubmitted(_tokenId: uint256):
+    xtrans: Transaction = self.preStateTransition(msg.sender, TCO_DOCS_SUBMITTED)
+
+    self._docsSubmitted(_tokenId)
+
+    self.postStateTransition(xtrans)
+
+
+@public
+def userQualified(_tokenId: uint256):
+    xtrans: Transaction = self.preStateTransition(msg.sender, TCO_USER_QUALIFIED)
+
+    self._userQualified(_tokenId)
+
+    self.postStateTransition(xtrans)
+
+
+@public
+def docSubmittedBatch(_tokenIds: uint256[MAX_BATCH_SIZE]):
+    xtrans: Transaction = self.preStateTransition(msg.sender, TCO_DOCS_SUBMITTED)
 
     for i in range(MAX_BATCH_SIZE):
         tokenId: uint256 = _tokenIds[i]
         if tokenId == 0:
             continue
+        self._docsSubmitted(tokenId)
 
-        dataSubmitted: bool = _dataSubmitted[i]
-        userQualified: bool = _userQualified[i]
+    log.TokenBatchDataSubmitted(_tokenIds)
 
-        tokenTypeIndex: int128 = self._getTokenTypeIndex(tokenId)
+    self.postStateTransition(xtrans)
 
-        assert self.tokenLists[tokenTypeIndex].levels[DEEPEST_LEVEL][tokenId].tokenId != 0
 
-        if dataSubmitted:
-            self.tokenLists[tokenTypeIndex].levels[DEEPEST_LEVEL][tokenId].dataSubmitted = dataSubmitted
+@public
+def userQualifiedBatch(_tokenIds: uint256[MAX_BATCH_SIZE]):
+    xtrans: Transaction = self.preStateTransition(msg.sender, TCO_USER_QUALIFIED)
 
-        if userQualified:
-            self.tokenLists[tokenTypeIndex].levels[DEEPEST_LEVEL][tokenId].userQualified = userQualified
+    for i in range(MAX_BATCH_SIZE):
+        tokenId: uint256 = _tokenIds[i]
+        if tokenId == 0:
+            continue
+        self._userQualified(tokenId)
+
+    log.TokenBatchUserQualified(_tokenIds)
+
+    self.postStateTransition(xtrans)
 
 
 @public
 def finalize(_size: uint256):
-    assert _size > 0, 'Op size must greater than zero'
-    assert self.contractOwner == msg.sender, 'Caller is not contract owner'
-    assert self._getState() == CLOSED_STATE
+    _event: int128 = TCO_FINISH_TC_EMPTY
+    if (self.tokenLists[PREFERRED_TOKEN_TYPE].tokenCount + self.tokenLists[REGULAR_TOKEN_TYPE].tokenCount) > _size:
+        _event = TCO_FINISH_TC_REMAINING
 
-    opCounts: uint256[2]
+
+    opCounts: uint256[2] = [0,0]
     EapLimits: uint256[2] = [self.maxPreferredTokens, self.maxTokens]
+    tokenId: uint256 = 0
+    token: TokenApplication = TokenApplication({
+        tokenId: 0,
+        prevToken: 0,
+        nextToken: 0
+    })
 
-    tokenId: uint256
-    token: TokenApplication
+    # If assertion are BEFORE variable declarations - transaction fails immediately
+    xtrans: Transaction = self.preStateTransition(msg.sender, _event)
+    assert _size > 0, 'Op size must greater than zero'
 
     for tokenTypeIndex in [PREFERRED_TOKEN_TYPE, REGULAR_TOKEN_TYPE]:
         if self.tokenLists[tokenTypeIndex].tokenCount > 0:
@@ -410,23 +596,21 @@ def finalize(_size: uint256):
                     break
 
                 token = self.tokenLists[tokenTypeIndex].levels[DEEPEST_LEVEL][tokenId]
+                
+                if (EapLimits[tokenTypeIndex] > 0):
+                    ASCToken(self.tokenContract).finalize(tokenId)
 
-                if (EapLimits[tokenTypeIndex] > 0 and token.dataSubmitted and token.userQualified):
                     if tokenTypeIndex == PREFERRED_TOKEN_TYPE:
                         EapLimits[REGULAR_TOKEN_TYPE] -= 1
                     EapLimits[tokenTypeIndex] -= 1
-
-                    ABC(self.tokenContract).burnToken(tokenId)
                 else:
-                    ABC(self.tokenContract).withdrawFromTokenCall(tokenId)
+                    ASCToken(self.tokenContract).userRejected(tokenId)
 
                 for level in range(MAX_LEVEL):
                     if token.tokenId != 0:
                         self.tokenLists[tokenTypeIndex].levels[level][token.nextToken].prevToken = 0
                         self.tokenLists[tokenTypeIndex].levels[level][tokenId] = TokenApplication({
                             tokenId: 0,
-                            dataSubmitted: False,
-                            userQualified: False,
                             prevToken: 0,
                             nextToken: 0,
                         })
@@ -440,10 +624,14 @@ def finalize(_size: uint256):
     self.maxPreferredTokens = EapLimits[PREFERRED_TOKEN_TYPE]
     self.maxTokens = EapLimits[REGULAR_TOKEN_TYPE]
 
+    log.TokenCallFinalize(_size)
     if (self.tokenLists[PREFERRED_TOKEN_TYPE].tokenCount == 0 and \
         self.tokenLists[REGULAR_TOKEN_TYPE].tokenCount == 0):
+
         self.contractOwner = ZERO_ADDRESS
         selfdestruct(msg.sender)
+
+    self.postStateTransition(xtrans)
 
 
 @public

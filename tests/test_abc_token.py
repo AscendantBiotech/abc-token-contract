@@ -4,7 +4,7 @@ from tests.utils import to_timestamp
 
 
 MAX_BATCH_SIZE = 100
-TOKEN_RANGE = range(10, 20)
+TOKEN_RANGE = range(1, 10)
 INITIAL_MINT = 300
 
 
@@ -47,22 +47,27 @@ def erc20_contract(w3, get_contract):
 
 
 @pytest.fixture
-def minted_contract(w3, contract, zero_address, get_logs):
+def minted_contract(w3, contract, zero_address, get_logs, get_contract):
     owner = w3.eth.accounts[0]
+
     tx_hash = contract.createToken("Non-Fungible", True, transact={"from": owner})
     token_type = get_logs(tx_hash, contract, "TransferSingle")[0].args._token_id
+    with open("contracts/TokenService.vy") as f:
+        contract_code = f.read()
+        token_service_contract = get_contract(contract_code, contract.address, token_type)
+    contract.setTokenService(token_service_contract.address, token_type, transact={"from": owner})
+    contract.token_service_contract = token_service_contract
+
     tx_hash = contract.createToken("Fungible", True, transact={"from": owner})
     token_type_fungible = get_logs(tx_hash, contract, "TransferSingle")[0].args._token_id
 
     mint_token_to = [owner for _ in TOKEN_RANGE]
-    indexes = [i for i in TOKEN_RANGE]
 
     contract.setMintTokenApproval(token_type, owner, True, transact={"from": owner})
 
     contract.mintNonFungibleToken(
         token_type,
         resize(mint_token_to, MAX_BATCH_SIZE, default_value=zero_address),
-        resize(indexes, MAX_BATCH_SIZE),
         transact={"from": owner},
     )
     contract.token_type = token_type
@@ -104,30 +109,40 @@ def token_call_contract(w3, get_contract, minted_contract):
     )
 
 
-def test_create_and_mint_token(w3, contract, zero_address):
+def test_create_and_mint_token(w3, contract, zero_address, get_contract):
     sender = w3.eth.accounts[0]
 
     tx_hash = contract.createToken("test_create_token", True, transact={"from": sender})
     hex_token_id = w3.eth.getTransactionReceipt(tx_hash).logs[1].topics[1]
     token_type = int(hex_token_id.hex(), 0)
+    with open("contracts/TokenService.vy") as f:
+        contract_code = f.read()
+        token_service_contract = get_contract(contract_code, contract.address, token_type)
+    contract.setTokenService(token_service_contract.address, token_type, transact={"from": sender})
 
     assert token_type == 1 << 128 | 1 << 255
 
     mint_token_to = resize(
         w3.eth.accounts[1:4], MAX_BATCH_SIZE, default_value=zero_address
     )
-    token_ids = [i for i in range(20, 30)]
+    token_ids = [i for i in range(1, 10)]
 
     contract.setMintTokenApproval(token_type, sender, True, transact={"from": sender})
     tx_hash = contract.mintNonFungibleToken(
         token_type,
         resize(mint_token_to, MAX_BATCH_SIZE, default_value=zero_address),
-        resize(token_ids, MAX_BATCH_SIZE),
         transact={"from": sender},
     )
 
+    tx_dict = w3.eth.waitForTransactionReceipt(tx_hash)
+
     assert all(
-        contract.nfTokens__owner(token_type | token_id) == to
+        token_service_contract.tokens__owner(token_type | token_id) == to
+        for to, token_id in zip(mint_token_to, token_ids)
+        if to != zero_address
+    )
+    assert all(
+        contract.getNFTOwner(token_type | token_id) == to
         for to, token_id in zip(mint_token_to, token_ids)
         if to != zero_address
     )
@@ -432,30 +447,27 @@ def test_safe_transfer_batch_from_should_transfer_asset_to_other_users(
 
 
 def test_apply_and_withdraw_token(
-    w3, minted_contract, token_call_contract, assert_tx_failed
-):
+        w3, minted_contract, token_call_contract, assert_tx_failed, get_logs):
     sender = w3.eth.accounts[0]
     token_id = minted_contract.token_ids[0]
 
-    minted_contract.tokenCallApprove(token_call_contract.address, token_id, transact={"from": sender})
+    minted_contract.applyToken(token_id, token_call_contract.address, transact={"from": sender})
 
-    token_call_contract.applyToken(token_id, transact={"from": sender})
+    assert minted_contract.getNFTTokenCall(token_id) == token_call_contract.address
 
-    assert minted_contract.nfTokens__tokenCall(token_id) == token_call_contract.address
-
-    # Tx failed - can not withdraw the token directly
+    # Tx failed - can not withdraw the token call directly
     assert_tx_failed(
-        lambda: minted_contract.withdrawFromTokenCall(
+        lambda: token_call_contract.removeToken(
             token_id, transact={"from": sender}
         )
     )
 
-    token_call_contract.withdrawToken(token_id, transact={"from": sender})
+    minted_contract.removeToken(token_id, transact={"from": sender})
 
-    assert minted_contract.nfTokens__tokenCall(token_id) == None
+    assert minted_contract.getNFTTokenCall(token_id) == None
 
 
-def test_burn_token(w3, minted_contract, get_contract,  assert_tx_failed):
+def test_burn_token(w3, minted_contract, get_contract,  assert_tx_failed, get_logs):
     with open("contracts/mockTokenCall.vy") as f:
         contract_code = f.read()
         max_preferred_tkns = 10
@@ -480,33 +492,35 @@ def test_burn_token(w3, minted_contract, get_contract,  assert_tx_failed):
 
     # Cannot burn token directly
     assert_tx_failed(
-        lambda: minted_contract.burnToken(token_id, transact={"from": sender})
+        lambda: minted_contract.finalize(token_id, transact={"from": sender})
     )
 
-    minted_contract.tokenCallApprove(token_call_contract.address, token_id, transact={"from": sender})
-    minted_contract.tokenCallApprove(token_call_contract.address, token_id_2, transact={"from": sender})
+    minted_contract.applyToken(token_id, token_call_contract.address, transact={"from": sender})
+    minted_contract.applyToken(token_id_2, token_call_contract.address, transact={"from": sender})
 
-    token_call_contract.applyToken(token_id, transact={"from": sender})
-    token_call_contract.applyToken(token_id_2, transact={"from": sender})
-    assert minted_contract.getNFTState(token_id) == 2
+    assert minted_contract.getNFTState(token_id) == 2 # Applied
+
     # Cannot burn token directly even the token is applied
     assert_tx_failed(
-        lambda: minted_contract.burnToken(token_id, transact={"from": sender})
+        lambda: minted_contract.finalize(token_id, transact={"from": sender})
     )
 
-    token_call_contract.approveToken(token_id, True, True, transact={"from": sender})
-    token_call_contract.approveToken(token_id_2, True, True, transact={"from": sender})
-    assert minted_contract.getNFTState(token_id) == 4
+    token_call_contract.docsSubmitted(token_id, transact={"from": sender})
+    token_call_contract.userQualified(token_id, transact={"from": sender})
+    token_call_contract.docsSubmitted(token_id_2, transact={"from": sender})
+    token_call_contract.userQualified(token_id_2, transact={"from": sender})
+
+    assert minted_contract.getNFTState(token_id) == 4 # Approved
     # Only finalizing a token call can burn a token
 
-    token_call_contract.finalize(1, transact={"from": sender, "gas": 2000000})
+    tx_hash = token_call_contract.finalize(1, transact={"from": sender, "gas": 2000000})
 
-    assert minted_contract.nfTokens__owner(token_id) == None
+    assert minted_contract.getNFTOwner(token_id) == None
 
-    assert token_call_contract.getState() == 4
+    assert token_call_contract.getState() == 4 # Closed
 
     assert_tx_failed(
-        lambda: token_call_contract.withdrawToken(token_id, transact={"from": sender})
+        lambda: minted_contract.removeToken(token_id, transact={"from": sender})
     )
 
 
@@ -519,7 +533,7 @@ def test_should_not_be_able_to_apply_to_unsupported_token_call(
 
     # Cannot apply token directly
     assert_tx_failed(
-        lambda: minted_contract.applyTokenCall(
+        lambda: token_call_contract.applyToken(
             token_id, transact={"from": invalid_token_call}
         )
     )
@@ -530,34 +544,29 @@ def test_sell_token(w3, minted_contract, receiver_contract, token_call_contract,
     to = receiver_contract.address
     token_id = minted_contract.token_ids[0]
 
-    assert minted_contract.getNFTState(token_id) == 1
-
-    
     # Available state
     assert minted_contract.getNFTState(token_id) == 1
     # Sender is owner
-    assert minted_contract.nfTokens__owner(token_id) == sender
+    assert minted_contract.getNFTOwner(token_id) == sender
 
-    minted_contract.tokenCallApprove(token_call_contract.address, token_id, transact={"from": sender})
-    token_call_contract.applyToken(token_id, transact={'from': sender})
+    minted_contract.applyToken(token_id, token_call_contract.address, transact={'from': sender})
     # Assert token is applied
     assert minted_contract.getNFTState(token_id) == 2
-    assert minted_contract.nfTokens__tokenCall(token_id) == token_call_contract.address
-
+    assert minted_contract.getNFTTokenCall(token_id) == token_call_contract.address
 
     # Cannot sell an applied token
     assert_tx_failed(
-        lambda: minted_contract.sellToken(token_id, 10, erc20_contract.address, to, transact={'from': sender})
+        lambda: minted_contract.token_service_contract.sellToken(token_id, to, erc20_contract.address, 10, w3.eth.getBlock("latest").timestamp + 100, transact={'from': sender})
     )
     assert minted_contract.getNFTState(token_id) == 2
-    token_call_contract.withdrawToken(token_id, transact={'from': sender})
+    minted_contract.removeToken(token_id, transact={'from': sender})
 
-    minted_contract.sellToken(token_id, 10, erc20_contract.address, to, transact={'from': sender})
+    minted_contract.token_service_contract.sellToken(token_id, to, erc20_contract.address, 10, w3.eth.getBlock("latest").timestamp + 100, transact={'from': sender})
 
     assert minted_contract.getNFTState(token_id) == 5
-    assert minted_contract.nfTokens__option__buyer(token_id) == to
-    assert minted_contract.nfTokens__option__price(token_id) == 10
-    assert minted_contract.nfTokens__option__currency(token_id) == erc20_contract.address
+    assert minted_contract.token_service_contract.tokens__option__buyer(token_id) == to
+    assert minted_contract.token_service_contract.tokens__option__price(token_id) == 10
+    assert minted_contract.token_service_contract.tokens__option__currency(token_id) == erc20_contract.address
 
     # After set sell option, the token should not be able to transfer or applied to token calls
     assert_tx_failed(
@@ -575,7 +584,7 @@ def test_sell_token(w3, minted_contract, receiver_contract, token_call_contract,
     )
 
     assert_tx_failed(
-        lambda: token_call_contract.applyToken(token_id, transact={'from': sender})
+        lambda: minted_contract.applyToken(token_id, token_call_contract.address, transact={'from': sender})
     )
 
 
@@ -588,23 +597,24 @@ def test_buy_token_erc20(w3, minted_contract, receiver_contract, erc20_contract,
 
     assert minted_contract.getNFTState(token_id) == 1
 
-    minted_contract.sellToken(token_id, 10, erc20_contract.address, to, transact={'from': sender})
+    minted_contract.token_service_contract.sellToken(token_id, to, erc20_contract.address, 10, w3.eth.getBlock("latest").timestamp + 100, transact={'from': sender})
 
     assert minted_contract.getNFTState(token_id) == 5
 
-    erc20_contract.approve(minted_contract.address, 10, transact={'from': to})
-    minted_contract.buyToken(token_id, 10, transact={'from': to})
+    erc20_contract.approve(minted_contract.token_service_contract.address, 10, transact={'from': to})
+    minted_contract.token_service_contract.buyToken(token_id, erc20_contract.address, transact={'from': to})
 
-    assert minted_contract.nfTokens__option__buyer(token_id) is None
-    assert minted_contract.nfTokens__option__currency(token_id) is None
-    assert minted_contract.nfTokens__option__price(token_id) == 0
-    assert minted_contract.nfTokens__option__expires(token_id) == 0
+    assert minted_contract.getNFTOwner(token_id) == to
+    assert minted_contract.token_service_contract.tokens__option__expires(token_id) == 0
+    assert minted_contract.token_service_contract.tokens__option__buyer(token_id) == None
+    assert minted_contract.token_service_contract.tokens__option__price(token_id) == 0
+    assert minted_contract.token_service_contract.tokens__option__currency(token_id) == None
 
     assert erc20_contract.balanceOf(to) == 40
     assert erc20_contract.balanceOf(sender) == initial_sender_balance + 10
 
 
-def test_buy_token_native(w3, minted_contract, receiver_contract, erc20_contract, assert_tx_failed):
+def test_buy_token_native(w3, minted_contract, receiver_contract, erc20_contract, assert_tx_failed, zero_address):
     sender = w3.eth.accounts[0]
     to = w3.eth.accounts[1]
     token_id = minted_contract.token_ids[0]
@@ -613,22 +623,23 @@ def test_buy_token_native(w3, minted_contract, receiver_contract, erc20_contract
 
     assert minted_contract.getNFTState(token_id) == 1
 
-    minted_contract.sellToken(token_id, 10, "0x0000000000000000000000000000000000000000", to, transact={'from': sender})
+    minted_contract.token_service_contract.sellToken(token_id, to, zero_address, 10, w3.eth.getBlock("latest").timestamp + 100, transact={'from': sender})
 
     assert minted_contract.getNFTState(token_id) == 5
 
-    minted_contract.buyToken(token_id, 10, transact={'from': to, 'value': 10})
+    minted_contract.token_service_contract.buyToken(token_id, zero_address, transact={'from': to, 'value': 10 })
 
-    assert minted_contract.nfTokens__option__buyer(token_id) is None
-    assert minted_contract.nfTokens__option__currency(token_id) is None
-    assert minted_contract.nfTokens__option__price(token_id) == 0
-    assert minted_contract.nfTokens__option__expires(token_id) == 0
-    assert minted_contract.nfTokens__owner(token_id) == to
+    assert minted_contract.getNFTOwner(token_id) == to
+    assert minted_contract.token_service_contract.tokens__option__expires(token_id) == 0
+    assert minted_contract.token_service_contract.tokens__option__buyer(token_id) == None
+    assert minted_contract.token_service_contract.tokens__option__price(token_id) == 0
+    assert minted_contract.token_service_contract.tokens__option__currency(token_id) == None
+
     assert w3.eth.getBalance(sender) == initial_sender_balance + 10
     assert w3.eth.getBalance(to) == initial_to_balance - 10
 
 
-def test_available_state(w3, minted_contract, receiver_contract, token_call_contract, erc20_contract, assert_tx_failed):
+def test_available_state(w3, minted_contract, receiver_contract, token_call_contract, erc20_contract, assert_tx_failed, zero_address):
     sender = w3.eth.accounts[0]
     to = w3.eth.accounts[1]
     token_id = minted_contract.token_ids[0]
@@ -636,40 +647,50 @@ def test_available_state(w3, minted_contract, receiver_contract, token_call_cont
     # Available state
     assert minted_contract.getNFTState(token_id) == 1
     # Sender is owner
-    assert minted_contract.nfTokens__owner(token_id) == sender
+    assert minted_contract.getNFTOwner(token_id) == sender
 
     # minted_contract.tokenCallApprove(token_call_contract.address, token_id, transact={"from": sender})
     # token_call_contract.applyToken(token_id, transact={'from': sender})
 
     assert_tx_failed(
-        lambda: token_call_contract.withdrawToken(token_id, transact={'from': sender})
+        lambda: minted_contract.removeToken(token_id, transact={'from': sender})
     )
 
-    minted_contract.sellToken(token_id, 10, "0x0000000000000000000000000000000000000000", to, transact={'from': sender})
+    minted_contract.token_service_contract.sellToken(
+        token_id,
+        to,
+        zero_address,
+        10,
+        w3.eth.getBlock("latest").timestamp + 100,
+        transact={'from': sender}
+    )
 
     assert minted_contract.getNFTState(token_id) == 5
 
-    minted_contract.buyToken(token_id, 10, transact={'from': to, 'value': 10})
+    minted_contract.token_service_contract.buyToken(token_id, zero_address, transact={'from': to, 'value': 10 })
 
-    assert minted_contract.nfTokens__option__buyer(token_id) is None
-    assert minted_contract.nfTokens__option__currency(token_id) is None
-    assert minted_contract.nfTokens__option__price(token_id) == 0
-    assert minted_contract.nfTokens__option__expires(token_id) == 0
-    assert minted_contract.nfTokens__owner(token_id) == to
+    assert minted_contract.token_service_contract.tokens__option__expires(token_id) == 0
+    assert minted_contract.token_service_contract.tokens__option__buyer(token_id) == None
+    assert minted_contract.token_service_contract.tokens__option__price(token_id) == 0
+    assert minted_contract.token_service_contract.tokens__option__currency(token_id) == None
+
+    assert minted_contract.getNFTOwner(token_id) == to
     # Go back to available state after buying
     assert minted_contract.getNFTState(token_id) == 1
 
-    minted_contract.tokenCallApprove(token_call_contract.address, token_id, transact={"from": to})
-    token_call_contract.applyToken(token_id, transact={'from': to})
+    minted_contract.applyToken(token_id, token_call_contract.address, transact={'from': to})
+
     # Assert token is applied
     assert minted_contract.getNFTState(token_id) == 2
-    assert minted_contract.nfTokens__tokenCall(token_id) == token_call_contract.address
+    assert minted_contract.getNFTTokenCall(token_id) == token_call_contract.address
 
-    token_call_contract.approveToken(token_id, True, True, transact={"from": sender})
-    token_call_contract.rejectToken(token_id, transact={"from": sender})
+    token_call_contract.docsSubmitted(token_id, transact={"from": sender})
+    token_call_contract.userQualified(token_id, transact={"from": sender})
+    token_call_contract.userRejected(token_id, transact={"from": sender})
+
     # Available after rejection
     assert minted_contract.getNFTState(token_id) == 1
-    assert minted_contract.nfTokens__tokenCall(token_id) is None
+    assert minted_contract.getNFTTokenCall(token_id) is None
 
 
 def test_applied_state(w3, minted_contract, receiver_contract, token_call_contract, erc20_contract, assert_tx_failed):
@@ -680,25 +701,31 @@ def test_applied_state(w3, minted_contract, receiver_contract, token_call_contra
     # Available state
     assert minted_contract.getNFTState(token_id) == 1
     # Sender is owner
-    assert minted_contract.nfTokens__owner(token_id) == sender
+    assert minted_contract.getNFTOwner(token_id) == sender
 
-    minted_contract.tokenCallApprove(token_call_contract.address, token_id, transact={"from": sender})
-    token_call_contract.applyToken(token_id, transact={'from': sender})
+    minted_contract.applyToken(token_id, token_call_contract.address, transact={'from': sender})
     # Assert token is applied
     assert minted_contract.getNFTState(token_id) == 2
-    assert minted_contract.nfTokens__tokenCall(token_id) == token_call_contract.address
-
+    assert minted_contract.getNFTTokenCall(token_id) == token_call_contract.address
 
     # Cannot sell an applied token
     assert_tx_failed(
-        lambda: minted_contract.sellToken(token_id, 10, erc20_contract.address, to, transact={'from': sender})
+        lambda: minted_contract.token_service_contract.sellToken(
+            token_id,
+            to,
+            erc20_contract.address,
+            10,
+            w3.eth.getBlock("latest").timestamp + 100,
+            transact={'from': sender}
+        )
     )
+
     assert minted_contract.getNFTState(token_id) == 2
-    token_call_contract.withdrawToken(token_id, transact={'from': sender})
+    minted_contract.removeToken(token_id, transact={'from': sender})
 
     # Back to available state after token withdrawal
     assert minted_contract.getNFTState(token_id) == 1
-    assert minted_contract.nfTokens__tokenCall(token_id) is None
+    assert minted_contract.getNFTTokenCall(token_id) is None
 
 
 def test_processing_state(w3, minted_contract, receiver_contract, token_call_contract, erc20_contract, assert_tx_failed):
@@ -709,27 +736,34 @@ def test_processing_state(w3, minted_contract, receiver_contract, token_call_con
     # Available state
     assert minted_contract.getNFTState(token_id) == 1
     # Sender is owner
-    assert minted_contract.nfTokens__owner(token_id) == sender
+    assert minted_contract.getNFTOwner(token_id) == sender
 
-    minted_contract.tokenCallApprove(token_call_contract.address, token_id, transact={"from": sender})
-    token_call_contract.applyToken(token_id, transact={'from': sender})
+    minted_contract.applyToken(token_id, token_call_contract.address, transact={'from': sender})
     # Assert token is applied
     assert minted_contract.getNFTState(token_id) == 2
-    assert minted_contract.nfTokens__tokenCall(token_id) == token_call_contract.address
+    assert minted_contract.getNFTTokenCall(token_id) == token_call_contract.address
 
-    token_call_contract.approveToken(token_id, True, False, transact={"from": sender})
+    token_call_contract.docsSubmitted(token_id, transact={"from": sender})
     assert minted_contract.getNFTState(token_id) == 3
 
     # Cannot sell an applied token
     assert_tx_failed(
-        lambda: minted_contract.sellToken(token_id, 10, erc20_contract.address, to, transact={'from': sender})
+        lambda: minted_contract.token_service_contract.sellToken(
+            token_id,
+            to,
+            erc20_contract.address,
+            10,
+            w3.eth.getBlock("latest").timestamp + 100,
+            transact={'from': sender}
+        )
     )
+
     assert minted_contract.getNFTState(token_id) == 3
-    token_call_contract.withdrawToken(token_id, transact={'from': sender})
+    minted_contract.removeToken(token_id, transact={'from': sender})
 
     # Back to available state after token withdrawal
     assert minted_contract.getNFTState(token_id) == 1
-    assert minted_contract.nfTokens__tokenCall(token_id) is None
+    assert minted_contract.getNFTTokenCall(token_id) is None
 
 
 def test_approved_state(w3, minted_contract, receiver_contract, token_call_contract, erc20_contract, assert_tx_failed):
@@ -740,55 +774,66 @@ def test_approved_state(w3, minted_contract, receiver_contract, token_call_contr
     # Available state
     assert minted_contract.getNFTState(token_id) == 1
     # Sender is owner
-    assert minted_contract.nfTokens__owner(token_id) == sender
+    assert minted_contract.getNFTOwner(token_id) == sender
 
-    minted_contract.tokenCallApprove(token_call_contract.address, token_id, transact={"from": sender})
-    token_call_contract.applyToken(token_id, transact={'from': sender})
+    minted_contract.applyToken(token_id, token_call_contract.address, transact={'from': sender})
+
     # Assert token is applied
     assert minted_contract.getNFTState(token_id) == 2
-    assert minted_contract.nfTokens__tokenCall(token_id) == token_call_contract.address
+    assert minted_contract.getNFTTokenCall(token_id) == token_call_contract.address
 
-    token_call_contract.approveToken(token_id, True, False, transact={"from": sender})
+    token_call_contract.docsSubmitted(token_id, transact={"from": sender})
     assert minted_contract.getNFTState(token_id) == 3
 
-    token_call_contract.approveToken(token_id, True, True, transact={"from": sender})
+    token_call_contract.userQualified(token_id, transact={"from": sender})
     assert minted_contract.getNFTState(token_id) == 4
-    # Cannot sell an applied token
+    # Cannot sell an approved token
     assert_tx_failed(
-        lambda: minted_contract.sellToken(token_id, 10, erc20_contract.address, to, transact={'from': sender})
+        lambda: minted_contract.token_service_contract.sellToken(
+            token_id,
+            to,
+            erc20_contract.address,
+            10,
+            w3.eth.getBlock("latest").timestamp + 100,
+            transact={'from': sender}
+        )
     )
     assert minted_contract.getNFTState(token_id) == 4
-    token_call_contract.withdrawToken(token_id, transact={'from': sender})
 
-    # Back to available state after token withdrawal
-    assert minted_contract.getNFTState(token_id) == 1
-    assert minted_contract.nfTokens__tokenCall(token_id) is None
+    # Can't withdraw an approved token
+    assert_tx_failed(
+        lambda: minted_contract.removeToken(token_id, transact={'from': sender})
+    )
+
+    assert minted_contract.getNFTState(token_id) == 4
 
 
-def test_nf_token_must_be_minted_by_auction_only(w3, contract, zero_address, assert_tx_failed):
+def test_nf_token_must_be_minted_by_auction_only(w3, contract, zero_address, assert_tx_failed, get_contract):
     creator = w3.eth.accounts[0]
     sender = w3.eth.accounts[1]
 
     tx_hash = contract.createToken("test_create_token", True, transact={"from": creator})
     hex_token_id = w3.eth.getTransactionReceipt(tx_hash).logs[1].topics[1]
     token_type = int(hex_token_id.hex(), 0)
+    with open("contracts/TokenService.vy") as f:
+        contract_code = f.read()
+        token_service_contract = get_contract(contract_code, contract.address, token_type)
+    contract.setTokenService(token_service_contract.address, token_type, transact={"from": creator})
 
     mint_token_to = resize(
         w3.eth.accounts[1:4], MAX_BATCH_SIZE, default_value=zero_address
     )
-    token_ids = [i for i in range(20, 30)]
+    token_ids = [i for i in range(1, 10)]
 
     assert_tx_failed(lambda: contract.mintNonFungibleToken(
         token_type,
         resize(mint_token_to, MAX_BATCH_SIZE, default_value=zero_address),
-        resize(token_ids, MAX_BATCH_SIZE),
         transact={"from": sender},
     ))
 
     assert_tx_failed(lambda: contract.mintNonFungibleToken(
         token_type,
         resize(mint_token_to, MAX_BATCH_SIZE, default_value=zero_address),
-        resize(token_ids, MAX_BATCH_SIZE),
         transact={"from": creator},
     ))
 
@@ -800,16 +845,14 @@ def test_nf_token_must_be_minted_by_auction_only(w3, contract, zero_address, ass
     contract.mintNonFungibleToken(
         token_type,
         resize(mint_token_to, MAX_BATCH_SIZE, default_value=zero_address),
-        resize(token_ids, MAX_BATCH_SIZE),
         transact={"from": sender},
     )
 
     assert all(
-        contract.nfTokens__owner(token_type | token_id) == to
+        contract.getNFTOwner(token_type | token_id) == to
         for to, token_id in zip(mint_token_to, token_ids)
         if to != zero_address
     )
-
 
 
 def test_fungible_token_must_be_minted_by_creator_or_operator_only(w3, contract, zero_address, assert_tx_failed):
@@ -820,7 +863,6 @@ def test_fungible_token_must_be_minted_by_creator_or_operator_only(w3, contract,
     contract.setApprovalForAll(operator, True, transact={"from": creator})
 
     assert contract.isApprovedForAll(creator, operator)
-
 
     tx_hash = contract.createToken("test_create_token", False, transact={"from": creator})
     hex_token_id = w3.eth.getTransactionReceipt(tx_hash).logs[1].topics[1]

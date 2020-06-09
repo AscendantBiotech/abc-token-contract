@@ -199,8 +199,11 @@ def _get_contract(w3, source_code, *args, **kwargs):
     deploy_transaction = c.constructor(*args)
     tx_info = {"from": w3.eth.accounts[0], "value": value, "gasPrice": 0}
     tx_info.update(kwargs)
+    # import sys
+    # print("Contract bytecode size", sys.getsizeof(deploy_transaction.bytecode))
     tx_hash = deploy_transaction.transact(tx_info)
     address = w3.eth.getTransactionReceipt(tx_hash)["contractAddress"]
+
     contract = w3.eth.contract(
         address, abi=abi, bytecode=bytecode, ContractFactoryClass=VyperContract
     )
